@@ -267,8 +267,8 @@ with st.container():
     st.markdown(
         """
         <style>
-        .rectangle-box {
-            background-color: #D1F1D0 important!;
+        .custom-box {
+            background-color: #D1F1D0;
             border: 1px solid #d3d3d3;
             border-radius: 5px;
             padding: 10px;
@@ -279,21 +279,22 @@ with st.container():
 
     # Display the number of unique items user of interest rated
     st.write(
-        f'<div class="rectangle-box">Number of unique items user of interest rated is {len(items_our_user_rated)}</div>'
+        f'<div class="custom-box">Number of unique items user of interest rated is {len(items_our_user_rated)}</div>'
         , unsafe_allow_html=True
     )
 
     # Display the number of unique items that can be recommended to user of interest
     st.write(
-        f'<div class="rectangle-box">Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}</div>'
+        f'<div class="custom-box">Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}</div>'
         , unsafe_allow_html=True
     )
 
     # Display the preview of the item list
     st.write(
-        f'<div class="rectangle-box">Preview of the item list:<br/>{items_our_user_can_rate[:integer_value]}</div>'
+        f'<div class="custom-box">Preview of the item list:<br/>{items_our_user_can_rate[:integer_value]}</div>'
         , unsafe_allow_html=True
     )
+
     
 #st.write(f'Number of unique items user of interest rated is {len(items_our_user_rated)}')
 #st.write(f'Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}')
