@@ -68,7 +68,7 @@ integer_value = int(value)
 # Use the entered integer
 st.write("Top Number of movies you want:", integer_value)
 
-integer_value = 2
+integer_value = 5
 movie_mappings = df['movieId'].drop_duplicates().reset_index(drop=True).reset_index().rename(columns={'index': 'new_id'}).set_index('movieId')
 
 df_copy = df.copy() # To avoid changing the original DataFrame
@@ -213,7 +213,7 @@ import pickle
 file_path = "fm_model.pkl"  # Change the path as per your preference
 with open(file_path, 'rb') as f:
     model = pickle.load(f)
-    
+selected_new_id = 2    
  # Save selected_new_id in a variable
 new_id_variable = selected_new_id
     
