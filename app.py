@@ -3,6 +3,7 @@ import os
 import pandas as pd
 
 
+st.set_page_config(layout='wide', initial_sidebar_state='expanded', page_title='Recommender Movies Dashboard')
 
 # Add CSS styles to create a dark theme
 st.markdown(
@@ -37,9 +38,8 @@ if st.button("Toggle Theme"):
         st.session_state.dark_theme = True
 
         
-st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 st.title('Recommender Movies Dashboard')
-st.set_page_config(page_title='Recommender Movies Dashboard')
+
 
 st.cache_data()
 ratings=pd.read_csv("Dataset/ratings.csv")
