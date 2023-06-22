@@ -3,22 +3,39 @@ import os
 import pandas as pd
 
 
-# Set the default theme
-theme = "dark"
-st.set_page_config(theme=theme)
 
-# Create a button with an icon in the sidebar
-if theme == "dark":
-    icon = "🌞"  # Sun emoji for light theme
-else:
-    icon = "🌙"  # Moon emoji for dark theme
+# Add CSS styles to create a dark theme
+st.markdown(
+    """
+    <style>
+    body {
+        color: white;
+        background-color: #1e1e1e;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-if st.sidebar.button(icon):
-    if theme == "dark":
-        theme = "default"
+# Create a button to toggle the theme
+if st.button("Toggle Theme"):
+    # Add CSS styles to switch between dark and light themes
+    if st.session_state.dark_theme:
+        st.session_state.dark_theme = False
+        st.markdown(
+            """
+            <style>
+            body {
+                color: black;
+                background-color: white;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
     else:
-        theme = "dark"
-    st.set_page_config(theme=theme)
+        st.session_state.dark_theme = True
+
         
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 st.title('Recommender Movies Dashboard')
@@ -49,14 +66,20 @@ user_mappings = df['userId'].drop_duplicates().reset_index(drop=True).reset_inde
 
 # Assuming you have the user_mappings DataFrame available
 
-# Get the unique values from the new_id column
-new_ids = user_mappings['new_id'].unique()
+# Get the unique values from the userId column
+user_ids = user_mappings.index.unique()
+
+# Create a dictionary to map userId to new_id
+mapping_dict = user_mappings['new_id'].to_dict()
 
 # Create the dropdown menu
-selected_new_id = st.selectbox('Select Used Id:', new_ids , style="width: 200px;")
+selected_user_id = st.selectbox('Select a userId:', user_ids)
 
-# Filter the DataFrame based on the selected new_id
-filtered_df = user_mappings[user_mappings['new_id'] == selected_new_id]
+# Get the corresponding new_id using the mapping_dict
+selected_new_id = mapping_dict[selected_user_id]
 
-# Display the filtered DataFrame
-st.write(filtered_df)
+# Create a DataFrame with the selected mapping
+mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new_id]})
+
+# Display the mapping DataFrame as a table without the index column
+st.write(mapping_df)
