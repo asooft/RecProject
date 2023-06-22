@@ -51,3 +51,9 @@ mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new
 
 # Display the mapping DataFrame as a table without the index column
 st.write(mapping_df)
+
+# Display a name for the input field and get the numeric input
+value = st.number_input("Enter a Top Number of movies you want")
+
+# Use the entered number
+st.write("Top Number of movies you want:", value)
