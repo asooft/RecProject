@@ -60,7 +60,7 @@ mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new
 st.write(mapping_df)
 
 # Display a name for the input field and get the numeric input
-value = st.number_input("Enter a Top Number of movies you want", step=1.0, format="%d")
+value = st.number_input("Enter a Top Number of movies you want", value=5, step=1.0, format="%g")
 
 # Convert the input value to an integer
 integer_value = int(value)
@@ -68,7 +68,7 @@ integer_value = int(value)
 # Use the entered integer
 st.write("Top Number of movies you want:", integer_value)
 
-integer_value = 5
+#integer_value = 5
 movie_mappings = df['movieId'].drop_duplicates().reset_index(drop=True).reset_index().rename(columns={'index': 'new_id'}).set_index('movieId')
 
 df_copy = df.copy() # To avoid changing the original DataFrame
