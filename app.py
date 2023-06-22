@@ -361,35 +361,35 @@ for item_id, predicted_rating in top_recommendations:
     movie_title = movie_mappings[movie_mappings.new_id == item_id].index[0]
     # Create a container with a specified width and height
     # Create a container with a specified width and height
-    with st.container():
-        # Set the container's style to display as a rectangle with a border and padding
-        st.markdown(
-            """
-            <style>
-            .custom-box3 {
-                background-color: #f8f8f8;
-                border: 2px solid #4e6bff;
-                border-radius: 10px;
-                padding: 15px;
-            }
+    # with st.container():
+        # # Set the container's style to display as a rectangle with a border and padding
+        # st.markdown(
+            # """
+            # <style>
+            # .custom-box3 {
+                # background-color: #f8f8f8;
+                # border: 2px solid #4e6bff;
+                # border-radius: 10px;
+                # padding: 15px;
+            # }
 
-            .custom-text3 {
-                font-size: 18px;
-                font-weight: bold;
-                color: #4e6bff;
-                margin-bottom: 10px;
-            }
-            </style>
-            """
-        , unsafe_allow_html=True)
+            # .custom-text3 {
+                # font-size: 18px;
+                # font-weight: bold;
+                # color: #4e6bff;
+                # margin-bottom: 10px;
+            # }
+            # </style>
+            # """
+        # , unsafe_allow_html=True)
 
-        # Display the movie title and predicted rating
-        st.write(
-            f'<div class="custom-box3">'
-            f'<div class="custom-text3">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
-            f'</div>'
-            , unsafe_allow_html=True
-        )
+        # # Display the movie title and predicted rating
+        # st.write(
+            # f'<div class="custom-box3">'
+            # f'<div class="custom-text3">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
+            # f'</div>'
+            # , unsafe_allow_html=True
+        # )
 
 
     
