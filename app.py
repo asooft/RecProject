@@ -213,7 +213,7 @@ import pickle
 file_path = "fm_model.pkl"  # Change the path as per your preference
 with open(file_path, 'rb') as f:
     model = pickle.load(f)
-selected_new_id = 2    
+selected_new_id = selected_user_id    
  # Save selected_new_id in a variable
 new_id_variable = selected_new_id
     
