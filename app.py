@@ -68,7 +68,7 @@ integer_value = int(value)
 # Use the entered integer
 st.write("Top Number of movies you want:", integer_value)
 
-
+integer_value = 2
 movie_mappings = df['movieId'].drop_duplicates().reset_index(drop=True).reset_index().rename(columns={'index': 'new_id'}).set_index('movieId')
 
 df_copy = df.copy() # To avoid changing the original DataFrame
