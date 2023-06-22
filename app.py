@@ -366,14 +366,14 @@ for item_id, predicted_rating in top_recommendations:
         st.markdown(
             """
             <style>
-            .custom-box {
+            .custom-box3 {
                 background-color: #f8f8f8;
                 border: 2px solid #4e6bff;
                 border-radius: 10px;
                 padding: 15px;
             }
 
-            .custom-text {
+            .custom-text3 {
                 font-size: 18px;
                 font-weight: bold;
                 color: #4e6bff;
@@ -385,8 +385,8 @@ for item_id, predicted_rating in top_recommendations:
 
         # Display the movie title and predicted rating
         st.write(
-            f'<div class="custom-box">'
-            f'<div class="custom-text">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
+            f'<div class="custom-box3">'
+            f'<div class="custom-text3">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
             f'</div>'
             , unsafe_allow_html=True
         )
@@ -399,5 +399,37 @@ for item_id, predicted_rating in top_recommendations:
 print("Top Recommendations:")
 for item_id, predicted_rating in top_recommendations:
     movie_title = movies[movies['movieId'] == item_id]['title'].values[0]
-    st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
+    
+    # Create a container with a specified width and height
+    with st.container():
+        # Set the container's style to display as a rectangle with a border and padding
+        st.markdown(
+            """
+            <style>
+            .custom-box4 {
+                background-color: #f8f8f8;
+                border: 2px solid #4e6bff;
+                border-radius: 10px;
+                padding: 15px;
+            }
+
+            .custom-text4 {
+                font-size: 18px;
+                font-weight: bold;
+                color: #4e6bff;
+                margin-bottom: 10px;
+            }
+            </style>
+            """
+        , unsafe_allow_html=True)
+
+        # Display the movie title and predicted rating
+        st.write(
+            '<div class="custom-box4">'
+            f'<div class="custom-text4">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
+            '</div>'
+            , unsafe_allow_html=True
+        )
+
+    #st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
 
