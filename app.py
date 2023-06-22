@@ -5,38 +5,6 @@ import pandas as pd
 
 st.set_page_config(layout='wide', initial_sidebar_state='expanded', page_title='Recommender Movies Dashboard')
 
-# Add CSS styles to create a dark theme
-st.markdown(
-    """
-    <style>
-    body {
-        color: white;
-        background-color: #1e1e1e;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Create a button to toggle the theme
-if st.button("Toggle Theme"):
-    # Add CSS styles to switch between dark and light themes
-    if st.session_state.dark_theme:
-        st.session_state.dark_theme = False
-        st.markdown(
-            """
-            <style>
-            body {
-                color: black;
-                background-color: white;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-    else:
-        st.session_state.dark_theme = True
-
         
 st.title('Recommender Movies Dashboard')
 
