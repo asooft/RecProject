@@ -336,7 +336,7 @@ with st.container():
             border: 2px solid #4e6bff;
             border-radius: 10px;
             padding: 15px;
-            width: 500px;
+            width: 350px;
         }
 
         .custom-title2 {
@@ -412,7 +412,7 @@ for item_id, predicted_rating in top_recommendations:
                 border: 2px solid #336699;
                 border-radius: 8px;
                 padding: 12px;
-                width: 500px;
+                width: 350px;
                 box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
             }
 
