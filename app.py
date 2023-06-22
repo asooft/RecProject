@@ -2,19 +2,23 @@ import streamlit as st
 import os
 import pandas as pd
 
-# Set the theme to dark by default
-st.set_theme('dark')
 
-# Create a button in the sidebar
-theme_switcher = st.sidebar.button("Toggle Theme")
+# Set the default theme
+theme = "dark"
+st.set_page_config(theme=theme)
 
-# Check if the button is clicked
-if theme_switcher:
-    # Toggle between dark and default (white) theme
-    if st.get_theme() == 'dark':
-        st.set_theme('default')
+# Create a button with an icon in the sidebar
+if theme == "dark":
+    icon = "🌞"  # Sun emoji for light theme
+else:
+    icon = "🌙"  # Moon emoji for dark theme
+
+if st.sidebar.button(icon):
+    if theme == "dark":
+        theme = "default"
     else:
-        st.set_theme('dark')
+        theme = "dark"
+    st.set_page_config(theme=theme)
         
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 st.title('Recommender Movies Dashboard')
@@ -49,7 +53,7 @@ user_mappings = df['userId'].drop_duplicates().reset_index(drop=True).reset_inde
 new_ids = user_mappings['new_id'].unique()
 
 # Create the dropdown menu
-selected_new_id = st.selectbox('Select Used Id:', new_ids)
+selected_new_id = st.selectbox('Select Used Id:', new_ids , style="width: 200px;")
 
 # Filter the DataFrame based on the selected new_id
 filtered_df = user_mappings[user_mappings['new_id'] == selected_new_id]
