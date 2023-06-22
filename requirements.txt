@@ -1,2 +1,6 @@
-streamlit 
+torch
+numpy
+requests
+tqdm
+streamlit
 pandas

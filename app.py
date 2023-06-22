@@ -1,6 +1,13 @@
 import streamlit as st
 import os
 import pandas as pd
+import torch
+import requests
+import numpy as np
+from tqdm import tqdm
+from itertools import product
+from IPython.display import display, clear_output
+from torch.utils.data import Dataset, DataLoader, SequentialSampler, BatchSampler
 
 
 st.set_page_config(layout='wide', initial_sidebar_state='expanded', page_title='Recommender Movies Dashboard')
@@ -96,7 +103,7 @@ train = final[final.Train == 1]
 test = final[final.Train == 0]
 
 
-class DPMovieDataset():
+class DPMovieDataset(Dataset):
   def __init__(self, user_ids, data, agg_hist, active_matrix, recommendation=False):
     self.user_ids = user_ids
     self.data = data
