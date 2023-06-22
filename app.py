@@ -53,7 +53,10 @@ mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new
 st.write(mapping_df)
 
 # Display a name for the input field and get the numeric input
-value = st.number_input("Enter a Top Number of movies you want")
+value = st.number_input("Enter a Top Number of movies you want", step=1.0, format="%d")
 
-# Use the entered number
-st.write("Top Number of movies you want:", value)
+# Convert the input value to an integer
+integer_value = int(value)
+
+# Use the entered integer
+st.write("Top Number of movies you want:", integer_value)
