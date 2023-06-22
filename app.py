@@ -406,7 +406,7 @@ for item_id, predicted_rating in top_recommendations:
         st.markdown(
             """
             <style>
-            .custom-box {
+            .custom-box4 {
                 background-color: #f5f5f5;
                 border: 2px solid #336699;
                 border-radius: 8px;
@@ -415,7 +415,7 @@ for item_id, predicted_rating in top_recommendations:
                 box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
             }
 
-            .custom-text {
+            .custom-text4 {
                 font-size: 18px;
                 font-weight: bold;
                 color: #336699;
@@ -427,8 +427,8 @@ for item_id, predicted_rating in top_recommendations:
 
         # Display the movie title and predicted rating
         st.write(
-            '<div class="custom-box">'
-            f'<div class="custom-text">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
+            '<div class="custom-box4">'
+            f'<div class="custom-text4">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
             '</div>'
             , unsafe_allow_html=True
         )
