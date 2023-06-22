@@ -60,3 +60,68 @@ integer_value = int(value)
 
 # Use the entered integer
 st.write("Top Number of movies you want:", integer_value)
+
+
+import pickle
+file_path = "fm_model.pkl"  # Change the path as per your preference
+with open(file_path, 'rb') as f:
+    model = pickle.load(f)
+    
+ # Save selected_new_id in a variable
+new_id_variable = selected_new_id
+    
+new=user_mappings.loc[new_id_variable].new_id
+features,ratings = dataset_test[[new]]
+
+
+model.eval()
+with torch.no_grad():
+  st.write(f'Predicted rating for User of interest: {model(features).item()}') # Get the model output on the user of interest after running the previous cell to now their new_id
+  st.write(f'Actual Rating: {ratings.values[0]}') # Extract the actual rating for the user of interest from dataset_test Dataset object
+
+# Replace None with the new_id of the user
+items_our_user_rated = (train[train.userId==new].movieId).unique().tolist()
+items_our_user_rated.extend((test[test.userId==new].movieId).unique().tolist())
+
+items_our_user_can_rate = movie_mappings[~movie_mappings.new_id.isin(items_our_user_rated)].new_id.tolist()
+
+st.write(f'Number of unique items user of interest rated is {len(items_our_user_rated)}')
+st.write(f'Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}')
+st.write(f'Preview of the item list:\n\t{items_our_user_can_rate[:integer_value]}')
+
+N = 5  # Number of recommendations
+
+recommendations = []
+
+model.eval()  # Set the model to evaluation mode
+
+with torch.no_grad():
+    for item_id in items_our_user_can_rate:
+        features = dataset_test[[item_id]][0]  # Create a dataset for the item
+        #print(features)
+        # Check if the dataset for the item is empty
+        if features.nelement() == 0:
+            continue
+
+        predicted_rating = model(features).item()  # Get the predicted rating for the user
+
+        recommendations.append((item_id, predicted_rating))
+
+# Sort the recommendations based on predicted ratings in descending order
+recommendations.sort(key=lambda x: x[1], reverse=True)
+
+# Select the top N recommendations
+top_recommendations = recommendations[:N]
+
+# Print the top recommendations
+st.write("Top Recommendations:")
+for item_id, predicted_rating in top_recommendations:
+    movie_title = movie_mappings[movie_mappings.new_id == item_id].index[0]
+    st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
+    
+    # Print the top recommendations with movie names
+print("Top Recommendations:")
+for item_id, predicted_rating in top_recommendations:
+    movie_title = movies[movies['movieId'] == item_id]['title'].values[0]
+    st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
+
