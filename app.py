@@ -223,8 +223,37 @@ features,ratings = dataset_test[[new]]
 
 model.eval()
 with torch.no_grad():
-  st.write(f'Predicted rating for User of interest: {model(features).item()}') # Get the model output on the user of interest after running the previous cell to now their new_id
-  st.write(f'Actual Rating: {ratings.values[0]}') # Extract the actual rating for the user of interest from dataset_test Dataset object
+  #st.write(f'Predicted rating for User of interest: {model(features).item()}') # Get the model output on the user of interest after running the previous cell to now their new_id
+  #st.write(f'Actual Rating: {ratings.values[0]}') # Extract the actual rating for the user of interest from dataset_test Dataset object
+  # Create a container with a specified width and height
+    with st.container():
+        # Set the container's style to display as a rectangle with a border and padding
+        st.markdown(
+            """
+            <style>
+            .rectangle-box {
+                background-color: #f5f5f5;
+                border: 1px solid #d3d3d3;
+                border-radius: 5px;
+                padding: 10px;
+            }
+            </style>
+            """
+        , unsafe_allow_html=True)
+
+        # Display the predicted rating
+        st.write(
+            f'<div class="rectangle-box">Predicted rating for User of interest: {model(features).item()}</div>'
+            , unsafe_allow_html=True
+        )
+
+        # Display the actual rating
+        st.write(
+            f'<div class="rectangle-box">Actual Rating: {ratings.values[0]}</div>'
+            , unsafe_allow_html=True
+        )
+  
+
 
 # Replace None with the new_id of the user
 items_our_user_rated = (train[train.userId==new].movieId).unique().tolist()
