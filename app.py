@@ -7,8 +7,8 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 st.title('Recommender Movies Dashboard')
 
 st.cache_data()
-ratings=pd.read_csv("/content/ratings.csv")
-movies=pd.read_csv("/content/movies.csv")
+ratings=pd.read_csv("Dataset/ratings.csv")
+movies=pd.read_csv("Dataset/movies.csv")
 df = pd.merge(ratings, movies, on='movieId', how='left')
 first_100_users = df['userId'].unique()[:100]
 df = df[df['userId'].isin(first_100_users)]
