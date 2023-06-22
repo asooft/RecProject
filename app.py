@@ -291,7 +291,7 @@ with st.container():
 
     # Display the preview of the item list
     st.write(
-        f'<div class="custom-box">Preview of the item list:<br/>{items_our_user_can_rate[:integer_value]}</div>'
+        f'<div class="custom-box">Preview of the item list:{items_our_user_can_rate[:integer_value]}</div>'
         , unsafe_allow_html=True
     )
 
