@@ -336,6 +336,7 @@ with st.container():
             border: 2px solid #4e6bff;
             border-radius: 10px;
             padding: 15px;
+            width: 350px;
         }
 
         .custom-title2 {
@@ -428,7 +429,7 @@ for item_id, predicted_rating in top_recommendations:
         # Display the movie title and predicted rating
         st.write(
             '<div class="custom-box4">'
-            f'<div class="custom-text4">Movie: {movie_title}, Predicted Rating: {round(predicted_rating,3)}</div>'
+            f'<div class="custom-text4">Movie: {movie_title} Predicted Rating: {round(predicted_rating,3)}</div>'
             '</div>'
             , unsafe_allow_html=True
         )
