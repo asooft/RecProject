@@ -261,9 +261,43 @@ items_our_user_rated.extend((test[test.userId==new].movieId).unique().tolist())
 
 items_our_user_can_rate = movie_mappings[~movie_mappings.new_id.isin(items_our_user_rated)].new_id.tolist()
 
-st.write(f'Number of unique items user of interest rated is {len(items_our_user_rated)}')
-st.write(f'Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}')
-st.write(f'Preview of the item list:\n\t{items_our_user_can_rate[:integer_value]}')
+# Create a container with a specified width and height
+with st.container():
+    # Set the container's style to display as a rectangle with a border and padding
+    st.markdown(
+        """
+        <style>
+        .rectangle-box {
+            background-color: #f5f5f5;
+            border: 1px solid #d3d3d3;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        </style>
+        """
+    , unsafe_allow_html=True)
+
+    # Display the number of unique items user of interest rated
+    st.write(
+        f'<div class="rectangle-box">Number of unique items user of interest rated is {len(items_our_user_rated)}</div>'
+        , unsafe_allow_html=True
+    )
+
+    # Display the number of unique items that can be recommended to user of interest
+    st.write(
+        f'<div class="rectangle-box">Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}</div>'
+        , unsafe_allow_html=True
+    )
+
+    # Display the preview of the item list
+    st.write(
+        f'<div class="rectangle-box">Preview of the item list:<br/>{items_our_user_can_rate[:integer_value]}</div>'
+        , unsafe_allow_html=True
+    )
+    
+#st.write(f'Number of unique items user of interest rated is {len(items_our_user_rated)}')
+#st.write(f'Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}')
+#st.write(f'Preview of the item list:\n\t{items_our_user_can_rate[:integer_value]}')
 
 N = integer_value  # Number of recommendations
 
