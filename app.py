@@ -2,9 +2,23 @@ import streamlit as st
 import os
 import pandas as pd
 
+# Set the theme to dark by default
+st.set_theme('dark')
 
+# Create a button in the sidebar
+theme_switcher = st.sidebar.button("Toggle Theme")
+
+# Check if the button is clicked
+if theme_switcher:
+    # Toggle between dark and default (white) theme
+    if st.get_theme() == 'dark':
+        st.set_theme('default')
+    else:
+        st.set_theme('dark')
+        
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 st.title('Recommender Movies Dashboard')
+st.set_page_config(page_title='Recommender Movies Dashboard')
 
 st.cache_data()
 ratings=pd.read_csv("Dataset/ratings.csv")
