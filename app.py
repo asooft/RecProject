@@ -268,7 +268,7 @@ with st.container():
         """
         <style>
         .rectangle-box {
-            background-color: #f5f5f5;
+            background-color: #D1F1D0;
             border: 1px solid #d3d3d3;
             border-radius: 5px;
             padding: 10px;
