@@ -41,7 +41,7 @@ user_ids = user_mappings.index.unique()
 mapping_dict = user_mappings['new_id'].to_dict()
 
 # Create the dropdown menu
-selected_user_id = st.selectbox('Select a userId:', user_ids)
+selected_user_id = st.selectbox('Select a userId:', user_ids, , style="width: 200px;")
 
 # Get the corresponding new_id using the mapping_dict
 selected_new_id = mapping_dict[selected_user_id]
