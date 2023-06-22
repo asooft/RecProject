@@ -291,7 +291,7 @@ with st.container():
 
     # Display the preview of the item list
     st.write(
-        f'<div class="custom-box">Preview of the item list:{items_our_user_can_rate[:integer_value]}</div>'
+        f'<div class="custom-box">Preview of the item list: {items_our_user_can_rate[:integer_value]}</div>'
         , unsafe_allow_html=True
     )
 
@@ -396,7 +396,7 @@ for item_id, predicted_rating in top_recommendations:
     #st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
     
     # Print the top recommendations with movie names
-print("Top Recommendations:")
+#print("Top Recommendations:")
 for item_id, predicted_rating in top_recommendations:
     movie_title = movies[movies['movieId'] == item_id]['title'].values[0]
     
@@ -406,18 +406,20 @@ for item_id, predicted_rating in top_recommendations:
         st.markdown(
             """
             <style>
-            .custom-box4 {
-                background-color: #f8f8f8;
-                border: 2px solid #4e6bff;
-                border-radius: 10px;
-                padding: 15px;
+            .custom-box {
+                background-color: #f5f5f5;
+                border: 2px solid #336699;
+                border-radius: 8px;
+                padding: 12px;
+                width: 350px;
+                box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
             }
 
-            .custom-text4 {
+            .custom-text {
                 font-size: 18px;
                 font-weight: bold;
-                color: #4e6bff;
-                margin-bottom: 10px;
+                color: #336699;
+                margin-bottom: 8px;
             }
             </style>
             """
@@ -425,11 +427,12 @@ for item_id, predicted_rating in top_recommendations:
 
         # Display the movie title and predicted rating
         st.write(
-            '<div class="custom-box4">'
-            f'<div class="custom-text4">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
+            '<div class="custom-box">'
+            f'<div class="custom-text">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
             '</div>'
             , unsafe_allow_html=True
         )
+
 
     #st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
 
