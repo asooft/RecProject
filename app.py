@@ -243,7 +243,7 @@ with torch.no_grad():
 
         # Display the predicted rating
         st.write(
-            f'<div class="rectangle-box">Predicted rating for User of interest: {model(features).item()}</div>'
+            f'<div class="rectangle-box">Predicted rating for User of interest: {round(model(features).item(),3)}</div>'
             , unsafe_allow_html=True
         )
 
@@ -429,7 +429,7 @@ for item_id, predicted_rating in top_recommendations:
         # Display the movie title and predicted rating
         st.write(
             '<div class="custom-box4">'
-            f'<div class="custom-text4">Movie: {movie_title} Predicted Rating: {round(predicted_rating,3)}</div>'
+            f'<div class="custom-text4">Movie: {movie_title} </br>Predicted Rating: {round(predicted_rating,3)}</div>'
             '</div>'
             , unsafe_allow_html=True
         )
