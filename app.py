@@ -428,7 +428,7 @@ for item_id, predicted_rating in top_recommendations:
         # Display the movie title and predicted rating
         st.write(
             '<div class="custom-box4">'
-            f'<div class="custom-text4">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
+            f'<div class="custom-text4">Movie: {movie_title}, Predicted Rating: {round(predicted_rating,3)}</div>'
             '</div>'
             , unsafe_allow_html=True
         )
