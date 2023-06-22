@@ -96,7 +96,7 @@ train = final[final.Train == 1]
 test = final[final.Train == 0]
 
 
-class DPMovieDataset(Dataset):
+class DPMovieDataset():
   def __init__(self, user_ids, data, agg_hist, active_matrix, recommendation=False):
     self.user_ids = user_ids
     self.data = data
