@@ -236,7 +236,7 @@ st.write(f'Number of unique items user of interest rated is {len(items_our_user_
 st.write(f'Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}')
 st.write(f'Preview of the item list:\n\t{items_our_user_can_rate[:integer_value]}')
 
-N = 5  # Number of recommendations
+N = integer_value  # Number of recommendations
 
 recommendations = []
 
