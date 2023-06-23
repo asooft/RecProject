@@ -382,8 +382,8 @@ def main():
 
     # Open and display the image
     image = Image.open(image_path)
-    resized_image = image.resize((500, 500))
-    st.image(resized_image, use_column_width='auto')
+    resized_image = image.resize((800, 200))
+    st.image(resized_image, use_column_width=True)
 
     
 
