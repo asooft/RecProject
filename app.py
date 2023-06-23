@@ -8,7 +8,7 @@ from tqdm import tqdm
 import pickle
 from PIL import Image
 from surprise import SVD
-from surprise import Dataset
+from surprise import Dataset as SurpriseDataset
 from surprise import accuracy
 from surprise.model_selection import train_test_split
 from surprise import KNNBasic,  KNNWithMeans, KNNBaseline
@@ -373,7 +373,7 @@ def run_user_based():
 def run_movie_based():
     df = pd.merge(ratings,movies,on='movieId')
     reader = Reader(rating_scale=(1, 5))
-    data = Dataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
+    data = SurpriseDataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
     
     # Load the KNN model from the file
     with open('knn_model.pkl', 'rb') as f:
