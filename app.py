@@ -49,7 +49,7 @@ mapping_dict = user_mappings['new_id'].to_dict()
 
 # Create the dropdown menu
 # Select a userId using st.selectbox
-selected_user_id = st.selectbox('Select a userId:', user_ids)
+#selected_user_id = st.selectbox('Select a userId:', user_ids)
 
 # Define the CSS style
 css = """
