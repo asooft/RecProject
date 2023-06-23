@@ -2,7 +2,9 @@ ITI AI-Pro
 Intake 43
 
 Recommender Systems Course Project
+
 UI Components:
+
 • User Page:
 o User selection mechanism (select from the unique users in the dataset)
 o User history view (show user interactions with item details)
