@@ -222,7 +222,7 @@ features,ratings = dataset_test[[new]]
 
 
 model.eval()
-with torch.no_grad():
+#with torch.no_grad():
   #st.write(f'Predicted rating for User of interest: {model(features).item()}') # Get the model output on the user of interest after running the previous cell to now their new_id
   #st.write(f'Actual Rating: {ratings.values[0]}') # Extract the actual rating for the user of interest from dataset_test Dataset object
   # Create a container with a specified width and height
