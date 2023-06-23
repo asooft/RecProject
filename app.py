@@ -377,7 +377,7 @@ def run_movie_based():
     
     # Load the KNN model from the file
     with open('knn_model.pkl', 'rb') as f:
-        model = pickle.load(f)    
+        model = pickle.load(f)
     
     def get_similar_movies(movie_name, k):
         tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
@@ -393,10 +393,10 @@ def run_movie_based():
             st.write(row['title'], "(Similarity:", row['similarity'], ")")
         
     # Create a selectbox to choose a movie
-    selected_movie = st.selectbox("Select a movie", movies['Title'].unique())
+    selected_movie = st.selectbox("Select a movie", movies['title'].unique())
 
     # Filter the DataFrame based on the selected movie
-    #filtered_movies = movies[movies['Title'] == selected_movie]
+    #filtered_movies = movies[movies['title'] == selected_movie]
 
     # Display the filtered movies
     #st.write(filtered_movies)
