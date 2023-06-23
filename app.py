@@ -375,11 +375,10 @@ def main():
     st.image(resized_image, use_column_width=True)
 
 
-    # Apply CSS styles to the buttons
-    st.markdown(
-        """
+    # Define CSS styles for the buttons
+    button_style = """
         <style>
-        .css-1iktp2i {
+        .centered-button {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -396,16 +395,31 @@ def main():
             margin: 10px;
         }
         </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    """
+
+    # Render the CSS styles
+    st.markdown(button_style, unsafe_allow_html=True)
+
+    # Create a container for the buttons and apply the custom CSS class
+    col1, col2 = st.beta_columns(2)
+    with col1:
+        st.markdown('<div class="centered-button">', unsafe_allow_html=True)
+        if st.button("User Based Recommendation"):
+            run_user_based()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with col2:
+        st.markdown('<div class="centered-button">', unsafe_allow_html=True)
+        if st.button("Movie Based Recommendation"):
+            run_movie_based()
+        st.markdown('</div>', unsafe_allow_html=True)
 
     
 
     # Add buttons with images
     col1, col2 = st.columns(2)
 
-    if col1.button("User Based Recommendation", key="css-1iktp2i"):
+    if col1.button("User Based Recommendation", key="movie_button"):
         run_user_based()
 
     #col1.image(image1, use_column_width=True)
