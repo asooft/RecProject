@@ -380,7 +380,11 @@ def main():
         """, unsafe_allow_html=True)
 
     # Add image with border and shadow   
-    st.markdown('<div class="image-container"><img src="%s"></div>' % image, unsafe_allow_html=True)
+    st.image(image, caption='Image with border and shadow', output_format='auto', 
+         width=None, use_column_width=True, 
+         clamp=False, channels='RGB', format='JPEG',
+         help='Display an image.', 
+         **{'class': 'image-with-border'})
     
 
     # Add buttons with images
