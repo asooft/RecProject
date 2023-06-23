@@ -514,12 +514,12 @@ def main():
     # Add buttons with images
     col1, col2 = st.columns(2)
 
-    if col1.button("User Based Recommendation", key="movie_button"):
+    if col1.button("User Based Recommendation", key="user_button"):
         run_user_based()
 
     #col1.image(image1, use_column_width=True)
 
-    if col2.button("Movie Based Recommendation"):
+    if col2.button("Movie Based Recommendation", key="movie_button"):
         run_movie_based()
 
     #col2.image(image2, use_column_width=True)
