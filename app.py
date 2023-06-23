@@ -385,10 +385,10 @@ def run_movie_based():
 
         st.write(f"Top {k} Similar Movies to '{movie_name}':")
         for index, row in similar_movies.iterrows():
-            st.write(row['title'], "(Similarity:", row['similarity'], ")")
+            st.write(row['title'])
         
     # Create a selectbox to choose a movie
-    selected_movie = st.selectbox("Select a movie", movies['title'].unique())
+    selected_movie = st.radio("Select a movie", movies['title'].unique())
 
     # Filter the DataFrame based on the selected movie
     #filtered_movies = movies[movies['title'] == selected_movie]
