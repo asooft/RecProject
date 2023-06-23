@@ -366,8 +366,22 @@ def run_movie_based():
 # Streamlit app code
 def main():
     # Define images for buttons
-    image1 = "images/r1.png"
-    image2 = "images/r2.png"
+    image = "images/r1.png"
+    
+    # Add custom CSS style
+    st.markdown("""
+        <style>
+        .image-container {
+            border: 1px solid gray;
+            padding: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+    # Add image with border and shadow   
+    st.markdown('<div class="image-container"><img src="%s"></div>' % image, unsafe_allow_html=True)
+    
 
     # Add buttons with images
     col1, col2 = st.columns(2)
@@ -375,12 +389,12 @@ def main():
     if col1.button("User Based Recommendation"):
         run_user_based()
 
-    col1.image(image1, use_column_width=True)
+    #col1.image(image1, use_column_width=True)
 
     if col2.button("Movie Based Recommendation"):
         run_movie_based()
 
-    col2.image(image2, use_column_width=True)
+    #col2.image(image2, use_column_width=True)
 
 if __name__ == "__main__":
     main()
