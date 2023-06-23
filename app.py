@@ -6,6 +6,7 @@ import requests
 import numpy as np
 from tqdm import tqdm
 import pickle
+from PIL import Image
 from itertools import product
 from IPython.display import display, clear_output
 from torch.utils.data import Dataset, DataLoader, SequentialSampler, BatchSampler
@@ -379,12 +380,10 @@ def main():
         </style>
         """, unsafe_allow_html=True)
 
-    # Add image with border and shadow   
-    st.image(image, caption='Image with border and shadow', output_format='auto', 
-             width=None, use_column_width=True, 
-             clamp=False, channels='RGB', 
-             help='Display an image.', 
-             **{'class': 'image-with-border'})
+    image = Image.open(image)
+
+    st.image(image, caption='Rate')
+
     
 
     # Add buttons with images
