@@ -385,34 +385,34 @@ def run_movie_based():
         
         with st.container():
         # Set the container's style to display as a rectangle with a border and padding
-        st.markdown(
-            """
-            <style>
-            .custom-box2 {
-                background-color: #f8f8f8;
-                border: 2px solid #4e6bff;
-                border-radius: 10px;
-                padding: 15px;
-                width: 40%;
-            }
+            st.markdown(
+                """
+                <style>
+                .custom-box2 {
+                    background-color: #f8f8f8;
+                    border: 2px solid #4e6bff;
+                    border-radius: 10px;
+                    padding: 15px;
+                    width: 40%;
+                }
 
-            .custom-title2 {
-                font-size: 24px;
-                font-weight: bold;
-                color: #4e6bff;
-                margin-bottom: 10px;
-            }
-            </style>
-            """
-        , unsafe_allow_html=True)
+                .custom-title2 {
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #4e6bff;
+                    margin-bottom: 10px;
+                }
+                </style>
+                """
+            , unsafe_allow_html=True)
 
-        # Display the "Top Recommendations" title
-        st.write(
-            '<div class="custom-box2">'
-            '<div class="custom-title2">"Top '{k}' Similar Movies to '{movie_name}':"</div>'
-            '</div>'
-            , unsafe_allow_html=True
-        )
+            # Display the "Top Recommendations" title
+            st.write(
+                '<div class="custom-box2">'
+                '<div class="custom-title2">"Top '{k}' Similar Movies to '{movie_name}':"</div>'
+                '</div>'
+                , unsafe_allow_html=True
+            )
         
 
         #st.write(f"Top {k} Similar Movies to '{movie_name}':")
