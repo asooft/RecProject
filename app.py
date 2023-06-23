@@ -383,7 +383,7 @@ def main():
     # Open and display the image
     image = Image.open(image_path)
     resized_image = image.resize((1000, 600))
-    st.image(image, use_column_width=True)
+    st.image(resized_image, use_column_width=True)
 
     
 
