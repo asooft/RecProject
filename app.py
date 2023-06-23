@@ -392,6 +392,25 @@ def run_movie_based():
         unsafe_allow_html=True
     )
     
+    # Get the selected movie from the selectbox
+    st.write('First 20 Movies')
+    #selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
+    moviesNames = movies['title'].unique()
+    selected_movie = st.radio("Choose a movie", moviesNames[0:20])
+
+
+    # Filter the DataFrame based on the selected movie
+    #filtered_movies = movies[movies['title'] == selected_movie]
+
+    # Display the filtered movies
+    #st.write(filtered_movies)
+    
+    # Display a name for the input field and get the numeric input
+    valueS = st.number_input("Enter top number of similar movies you want:", value=5, step=1, format="%d")
+
+    # Convert the input value to an integer
+    integer_value = int(valueS)
+    
     df = pd.merge(ratings,movies,on='movieId')
     reader = Reader(rating_scale=(1, 5))
     data = SurpriseDataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
@@ -474,24 +493,7 @@ def run_movie_based():
                 st.write(html_string, unsafe_allow_html=True)
                 #st.write(row['title'])
         
-    # Get the selected movie from the selectbox
-    st.write('First 20 Movies')
-    #selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
-    moviesNames = movies['title'].unique()
-    selected_movie = st.radio("Choose a movie", moviesNames[0:20])
 
-
-    # Filter the DataFrame based on the selected movie
-    #filtered_movies = movies[movies['title'] == selected_movie]
-
-    # Display the filtered movies
-    #st.write(filtered_movies)
-    
-    # Display a name for the input field and get the numeric input
-    valueS = st.number_input("Enter top number of similar movies you want:", value=5, step=1, format="%d")
-
-    # Convert the input value to an integer
-    integer_value = int(valueS)
     
     get_similar_movies(selected_movie, integer_value)
 
