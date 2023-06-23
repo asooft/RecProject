@@ -449,23 +449,21 @@ def run_movie_based():
                 st.write(html_string, unsafe_allow_html=True)
                 #st.write(row['title'])
         
-    # Create a selectbox to choose a movie
-    
     # Get the selected movie from the selectbox
-    selected_movie = st.sidebar.selectbox("Select a movie", movies['title'].unique(), key='movie_select')
+    selected_movie = st.selectbox("Select a movie", movies['title'].unique(), key='movie_select')
 
     # Store the selected movie in the app state
     if 'selected_movie' not in st.session_state:
         st.session_state.selected_movie = selected_movie
     else:
         if st.session_state.selected_movie != selected_movie:
-            st.experimental_set_query_params(selected_movie=selected_movie)
             st.session_state.selected_movie = selected_movie
+            st.experimental_rerun()
 
     # Retrieve the selected movie from the app state
     selected_movie = st.session_state.selected_movie
 
-    #selected_movie = st.sidebar.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
+    #selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
 
 
     # Filter the DataFrame based on the selected movie
