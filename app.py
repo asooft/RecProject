@@ -127,13 +127,13 @@ def run_user_based():
     # Create the dropdown menu
     # Select a userId using st.selectbox
     st.write('First Ten User')
-    selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
+    selected_user_id = st.selectbox('Select a user Id:', user_ids[0:10])
 
     # Get the corresponding new_id using the mapping_dict
     selected_new_id = mapping_dict[selected_user_id]
 
     # Create a DataFrame with the selected mapping
-    mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new_id]})
+    #mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new_id]})
 
     # Display the mapping DataFrame as a table without the index column
     #st.write(mapping_df)
@@ -514,15 +514,13 @@ def main():
     # Add buttons with images
     col1, col2 = st.columns(2)
 
-    if col1.button("Movie Based Recommendation", key="movie_button"):
-        run_movie_based()
-        
-    if col2.button("User Based Recommendation", key="user_button"):
+    if col1.button("User Based Recommendation", key="user_button"):
         run_user_based()
 
     #col1.image(image1, use_column_width=True)
 
-
+    if col2.button("Movie Based Recommendation", key="movie_button"):
+        run_movie_based()
 
     #col2.image(image2, use_column_width=True)
 
