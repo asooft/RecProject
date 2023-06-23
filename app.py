@@ -262,7 +262,7 @@ items_our_user_rated.extend((test[test.userId==new].movieId).unique().tolist())
 items_our_user_can_rate = movie_mappings[~movie_mappings.new_id.isin(items_our_user_rated)].new_id.tolist()
 
 # Create a container with a specified width and height
-with st.container():
+#with st.container():
     # Set the container's style to display as a rectangle with a border and padding
     # st.markdown(
         # """
