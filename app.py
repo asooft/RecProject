@@ -127,7 +127,7 @@ def run_user_based():
     # Create the dropdown menu
     # Select a userId using st.selectbox
     st.write('First Ten User')
-    selected_user_id = st.selectbox('Select a user Id:', user_ids[0:10])
+    selected_user_id = st.selectbox('Select a user Id:', user_ids)
 
     # Get the corresponding new_id using the mapping_dict
     selected_new_id = mapping_dict[selected_user_id]
@@ -399,8 +399,7 @@ def run_movie_based():
     #selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
     moviesNames = movies['title'].unique()
     selected_movie = st.radio("Choose a movie", moviesNames[0:20])
-
-
+    
     # Filter the DataFrame based on the selected movie
     #filtered_movies = movies[movies['title'] == selected_movie]
 
