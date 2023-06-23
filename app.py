@@ -382,10 +382,74 @@ def run_movie_based():
         similar_movies = movies[movies['movieId'].isin(similar_movie_ids)].copy()
         similar_movies['similarity'] = [model.sim[tsr_inner_id, model.trainset.to_inner_iid(movie_id)] for movie_id in similar_movie_ids]
         similar_movies.sort_values(by='similarity', ascending=False, inplace=True)
+        
+        with st.container():
+        # Set the container's style to display as a rectangle with a border and padding
+        st.markdown(
+            """
+            <style>
+            .custom-box2 {
+                background-color: #f8f8f8;
+                border: 2px solid #4e6bff;
+                border-radius: 10px;
+                padding: 15px;
+                width: 40%;
+            }
 
-        st.write(f"Top {k} Similar Movies to '{movie_name}':")
+            .custom-title2 {
+                font-size: 24px;
+                font-weight: bold;
+                color: #4e6bff;
+                margin-bottom: 10px;
+            }
+            </style>
+            """
+        , unsafe_allow_html=True)
+
+        # Display the "Top Recommendations" title
+        st.write(
+            '<div class="custom-box2">'
+            '<div class="custom-title2">"Top '{k}' Similar Movies to '{movie_name}':"</div>'
+            '</div>'
+            , unsafe_allow_html=True
+        )
+        
+
+        #st.write(f"Top {k} Similar Movies to '{movie_name}':")
         for index, row in similar_movies.iterrows():
-            st.write(row['title'])
+            # Create a container with a specified width and height
+        with st.container():
+            # Set the container's style to display as a rectangle with a border and padding
+            st.markdown(
+                """
+                <style>
+                .custom-box4 {
+                    background-color: #f5f5f5;
+                    border: 2px solid #336699;
+                    border-radius: 8px;
+                    padding: 12px;
+                    width: 40%;
+                    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+                }
+
+                .custom-text4 {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #336699;
+                    margin-bottom: 8px;
+                }
+                </style>
+                """
+            , unsafe_allow_html=True)
+
+            # Display the movie title and predicted rating
+            st.write(
+                '<div class="custom-box4">'
+                f'<div class="custom-text4">{row['title']}</div>'
+                '</div>'
+                , unsafe_allow_html=True
+            )
+            #st.write(row['title'])
         
     # Create a selectbox to choose a movie
     selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
