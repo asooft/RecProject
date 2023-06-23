@@ -6,6 +6,7 @@ import requests
 import numpy as np
 from tqdm import tqdm
 import pickle
+import joblib
 from PIL import Image
 from surprise import SVD
 from surprise import Dataset as SurpriseDataset
@@ -210,9 +211,7 @@ def run_user_based():
     train = final[final.Train == 1]
     test = final[final.Train == 0]
 
-
     
-          
     active_columns = pd.get_dummies(final[['userId','movieId']].astype(str))
     dataset_train = DPMovieDataset(user_mappings.values, train, agg_history_norm, active_columns)
     dataset_test = DPMovieDataset(user_mappings.values, test, agg_history_norm, active_columns)
@@ -278,9 +277,6 @@ def run_user_based():
             display(pd.DataFrame({'Epoch': epochs_l, 'Step': steps, 'Training Loss': t_losses, 'Validation Loss': v_losses}))
             
 
-
-
-    
     file_path = "fm_model.pkl"  # Change the path as per your preference
     with open(file_path, 'rb') as f:
         model = pickle.load(f)
@@ -376,8 +372,7 @@ def run_movie_based():
     data = SurpriseDataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
     
     # Load the KNN model from the file
-    with open('knn_model.pkl', 'rb') as f:
-        model = pickle.load(f)
+    loaded_model = joblib.load('knn_model.pkl')
     
     def get_similar_movies(movie_name, k):
         tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
