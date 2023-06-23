@@ -16,7 +16,7 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded', page_title='
 st.title('Recommender Movies Dashboard')
 
 
-st.cache_data()
+@st.cache_data()
 ratings=pd.read_csv("Dataset/ratings.csv")
 movies=pd.read_csv("Dataset/movies.csv")
 df = pd.merge(ratings, movies, on='movieId', how='left')
