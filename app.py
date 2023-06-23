@@ -127,7 +127,8 @@ def run_user_based():
 
     # Create the dropdown menu
     # Select a userId using st.selectbox
-    selected_user_id = st.selectbox('Select a user Id:', user_ids)
+    st.write('First Ten User')
+    selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
 
     # Get the corresponding new_id using the mapping_dict
     selected_new_id = mapping_dict[selected_user_id]
