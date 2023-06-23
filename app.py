@@ -126,7 +126,7 @@ def run_user_based():
 
     # Create the dropdown menu
     # Select a userId using st.selectbox
-    st.write('First Ten User')
+    #st.write('First Ten User')
     selected_user_id = st.selectbox('Select a user Id:', user_ids)
 
     # Get the corresponding new_id using the mapping_dict
@@ -370,7 +370,7 @@ def run_user_based():
 
 selMovie = ''
 def run_movie_based():
-
+    global selMovie
     # Apply custom CSS styles
     st.markdown(
         """
