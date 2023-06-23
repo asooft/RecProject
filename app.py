@@ -398,7 +398,7 @@ def run_movie_based():
     st.write('First 20 Movies')
     #selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
     moviesNames = movies['title'].unique()
-    if selMovie != ''
+    if selMovie != '':
         selected_movie = st.radio("Choose a movie", moviesNames[0:20], value = selMovie)
     else:
         selected_movie = st.radio("Choose a movie", moviesNames[0:20], value = '')
