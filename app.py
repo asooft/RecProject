@@ -398,7 +398,7 @@ def main():
     if col2.button("Movie Based Recommendation"):
         run_movie_based()
 
-    #col2.image(image2, use_column_width=True)
+    #col2.image(image2, use_column_width=auto)
 
 if __name__ == "__main__":
     main()
