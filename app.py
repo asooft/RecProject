@@ -441,14 +441,13 @@ def run_movie_based():
                     """
                 , unsafe_allow_html=True)
 
-                # Display the movie title and predicted rating
-                st.write(
-                    '<div class="custom-box4">'
-                    f'<div class="custom-text4">{row['title']}</div>'
-                    '</div>'
-                    , unsafe_allow_html=True
-                )
-            #st.write(row['title'])
+                html_string = f'<div class="custom-box4">' \
+                              f'<div class="custom-text4">{row["title"]}</div>' \
+                              f'</div>'
+
+                # Display the HTML string in Streamlit
+                st.write(html_string, unsafe_allow_html=True)
+                #st.write(row['title'])
         
     # Create a selectbox to choose a movie
     selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
