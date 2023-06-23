@@ -49,29 +49,7 @@ mapping_dict = user_mappings['new_id'].to_dict()
 
 # Create the dropdown menu
 # Select a userId using st.selectbox
-#selected_user_id = st.selectbox('Select a userId:', user_ids)
-
-# Create a container with a specified width and height
-with st.container():
-    # Set the container's style to display as a rectangle with a border and padding
-    st.markdown(
-        """
-        <style>     
-
-        /* Modify the select box size and color */
-        .custom-box4 select {
-            font-size: 16px; /* Change the font size as desired */
-            color: blue; /* Change the color as desired */
-        }
-        </style>
-        """
-    , unsafe_allow_html=True)
-
-    # Display the select box
-    selected_movie = st.selectbox('Select a userId:', user_ids, key='custom-selectbox')
-
-
-#selected_user_id = st.selectbox('Select a userId:', user_ids)
+selected_user_id = st.selectbox('Select a userId:', user_ids)
 
 # Get the corresponding new_id using the mapping_dict
 selected_new_id = mapping_dict[selected_user_id]
