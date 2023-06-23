@@ -138,6 +138,12 @@ def run_user_based():
 
     # Display the mapping DataFrame as a table without the index column
     #st.write(mapping_df)
+    
+    # Get the selected movie from the selectbox
+    st.write('First 20 Movies')
+    #selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
+    moviesNames = movies['title'].unique()
+    selected_movie = st.radio("Choose a movie", moviesNames[0:20])
 
     # Display a name for the input field and get the numeric input
     valueS = st.number_input("Enter top number of similar movies you want:", value=5, step=1, format="%d")
