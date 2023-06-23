@@ -369,28 +369,43 @@ def main():
     # Define the path to the image
     image_path = "images/r1.png"
 
-    # Add custom CSS style
-    st.markdown("""
-        <style>
-        .image-container {
-            border: 1px solid gray;
-            padding: 10px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
     # Open and display the image
     image = Image.open(image_path)
     resized_image = image.resize((800, 200))
     st.image(resized_image, use_column_width=True)
+
+
+    # Apply CSS styles to the buttons
+    st.markdown(
+        """
+        <style>
+        .css-1iktp2i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #FFA500;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
     
 
     # Add buttons with images
     col1, col2 = st.columns(2)
 
-    if col1.button("User Based Recommendation"):
+    if col1.button("User Based Recommendation", key="css-1iktp2i"):
         run_user_based()
 
     #col1.image(image1, use_column_width=True)
