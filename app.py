@@ -368,7 +368,7 @@ def run_user_based():
                     , unsafe_allow_html=True
                 )
 
-
+selMovie = ''
 def run_movie_based():
 
     # Apply custom CSS styles
@@ -398,8 +398,11 @@ def run_movie_based():
     st.write('First 20 Movies')
     #selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
     moviesNames = movies['title'].unique()
-    selected_movie = st.radio("Choose a movie", moviesNames[0:20])
-    
+    if selMovie != ''
+        selected_movie = st.radio("Choose a movie", moviesNames[0:20], value = selMovie)
+    else:
+        selected_movie = st.radio("Choose a movie", moviesNames[0:20], value = '')
+    selMovie = selected_movie
     # Filter the DataFrame based on the selected movie
     #filtered_movies = movies[movies['title'] == selected_movie]
 
