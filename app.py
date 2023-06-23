@@ -371,6 +371,27 @@ def run_user_based():
 
 
 def run_movie_based():
+
+    # Apply custom CSS styles
+    st.markdown(
+        """
+        <style>
+        .custom-text5 {
+            font-size: 36px; /* Change the font size as desired */
+            color: #8D3CC1; /* Change the color as desired */
+            font-weight: bold;
+        }
+        </style>
+        """
+        , unsafe_allow_html=True
+    )
+
+    # Display the text with custom styling
+    st.write(
+        '<div class="custom-text5">’Movie Based Recommendation</div>',
+        unsafe_allow_html=True
+    )
+    
     df = pd.merge(ratings,movies,on='movieId')
     reader = Reader(rating_scale=(1, 5))
     data = SurpriseDataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
@@ -454,8 +475,8 @@ def run_movie_based():
                 #st.write(row['title'])
         
     # Get the selected movie from the selectbox
-
-    selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
+    st.write('First 20 Movies')
+    selected_movie = st.radio("Choose a movie", movies['title'].unique()[0:20], index=0, key='movie_select')
 
 
     # Filter the DataFrame based on the selected movie
