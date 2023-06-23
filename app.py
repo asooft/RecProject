@@ -60,7 +60,7 @@ mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new
 #st.write(mapping_df)
 
 # Display a name for the input field and get the numeric input
-valueS = st.number_input("Enter a Top Number of movies you want:", value=5, step=1, format="%d")
+valueS = st.number_input("enter top number of similar movies you want:", value=5, step=1, format="%d")
 
 # Convert the input value to an integer
 integer_value = int(valueS)
