@@ -19,8 +19,8 @@ st.markdown(
     """
     <style>
     .custom-text5 {
-        font-size: 24px; /* Change the font size as desired */
-        color: red; /* Change the color as desired */
+        font-size: 36px; /* Change the font size as desired */
+        color: #8D3CC1; /* Change the color as desired */
         font-weight: bold;
     }
     </style>
