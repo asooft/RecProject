@@ -384,8 +384,9 @@ def main():
     image = Image.open(image)
 
     # Apply CSS class to the image container
-    st.image(image, output_format='PNG', use_column_width=True, 
-            container_class='image-container')
+    
+    # Wrap the image with a div and apply CSS class
+    st.markdown(f'<div class="image-container">{st.image(image, output_format="PNG", use_column_width=True)}</div>', unsafe_allow_html=True)
 
     
 
