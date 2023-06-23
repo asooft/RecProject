@@ -94,7 +94,8 @@ def run_user_based():
         '<div class="custom-text5">User Based Recommendation</div>',
         unsafe_allow_html=True
     )
-
+    ratings=pd.read_csv("Dataset/ratings.csv")
+    movies=pd.read_csv("Dataset/movies.csv")
     df = pd.merge(ratings, movies, on='movieId', how='left')
     first_100_users = df['userId'].unique()[:100]
     df = df[df['userId'].isin(first_100_users)]
