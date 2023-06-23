@@ -388,8 +388,8 @@ def run_movie_based():
             st.write(row['title'])
         
     # Create a selectbox to choose a movie
-    with st.beta_expander("Select a movie"):
-        selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0)
+    selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
+
 
     # Filter the DataFrame based on the selected movie
     #filtered_movies = movies[movies['title'] == selected_movie]
