@@ -94,6 +94,7 @@ def run_user_based():
         '<div class="custom-text5">User Based Recommendation</div>',
         unsafe_allow_html=True
     )
+    
     ratings=pd.read_csv("Dataset/ratings.csv")
     movies=pd.read_csv("Dataset/movies.csv")
     df = pd.merge(ratings, movies, on='movieId', how='left')
@@ -174,197 +175,198 @@ def run_user_based():
             '</div>'
             , unsafe_allow_html=True
         )
-
-    # Use the entered integer
-    #st.write("Top Number of movies you want:", integer_value)
-
-    #integer_value = 5
-    movie_mappings = df['movieId'].drop_duplicates().reset_index(drop=True).reset_index().rename(columns={'index': 'new_id'}).set_index('movieId')
-
-    df_copy = df.copy() # To avoid changing the original DataFrame
-    df_copy['ones'] = 1
-
-    columns_to_replace = ["userId", "movieId"]  # Specify the columns you want to replace
-
-    df_mapped = df_copy.copy()  # Create a copy of the original dataframe
-
-    # Replace values in the specified columns
-    df_mapped[columns_to_replace] = df_mapped[columns_to_replace].replace({
-        "userId": user_mappings.new_id.to_dict(),
-        "movieId": movie_mappings.new_id.to_dict()
-    })
-
-    # Replace None with the appropriate values
-    agg_history = pd.pivot_table(df_mapped,
-                   values='ones', index='userId', columns='movieId', fill_value=0)
-
-
-    # Replace None with correct values
-    # We need to normalize the aggregated history by dividing each value by the sum of all the values in the same row
-    agg_history_norm = agg_history / agg_history.values.sum(axis=1, keepdims=True)
-
-
-    df['Train'] = (ratings.groupby("userId").cumcount(ascending=False) != 0).replace({True:1, False:0})
-
-
-    final = pd.concat([df_mapped[['userId','movieId']], cats_ohe,df[['Train','rating']]], axis=1)
-
-    train = final[final.Train == 1]
-    test = final[final.Train == 0]
-
-    
-    active_columns = pd.get_dummies(final[['userId','movieId']].astype(str))
-    dataset_train = DPMovieDataset(user_mappings.values, train, agg_history_norm, active_columns)
-    dataset_test = DPMovieDataset(user_mappings.values, test, agg_history_norm, active_columns)
-
-    dataloader_train = DataLoader(dataset_train,
-                                  sampler=BatchSampler(SequentialSampler(dataset_train), batch_size=10, drop_last=False),
-                                  batch_size=None)
-
-    dataloader_test = DataLoader(dataset_test,
-                                  sampler=BatchSampler(SequentialSampler(dataset_test), batch_size=10, drop_last=False),
-                                  batch_size=None)
-                                  
-    
         
-    features,ratings=dataset_train[[1]]
+    with st.spinner('Loading Recommendation'):
+        # Use the entered integer
+        #st.write("Top Number of movies you want:", integer_value)
+
+        #integer_value = 5
+        movie_mappings = df['movieId'].drop_duplicates().reset_index(drop=True).reset_index().rename(columns={'index': 'new_id'}).set_index('movieId')
+
+        df_copy = df.copy() # To avoid changing the original DataFrame
+        df_copy['ones'] = 1
+
+        columns_to_replace = ["userId", "movieId"]  # Specify the columns you want to replace
+
+        df_mapped = df_copy.copy()  # Create a copy of the original dataframe
+
+        # Replace values in the specified columns
+        df_mapped[columns_to_replace] = df_mapped[columns_to_replace].replace({
+            "userId": user_mappings.new_id.to_dict(),
+            "movieId": movie_mappings.new_id.to_dict()
+        })
+
+        # Replace None with the appropriate values
+        agg_history = pd.pivot_table(df_mapped,
+                       values='ones', index='userId', columns='movieId', fill_value=0)
 
 
-    model = FactorizationMachine(n=11413, k=integer_value)
+        # Replace None with correct values
+        # We need to normalize the aggregated history by dividing each value by the sum of all the values in the same row
+        agg_history_norm = agg_history / agg_history.values.sum(axis=1, keepdims=True)
 
-    def model_step(mode, x, y=None, optimizer=None, train=True):
-      if train: # If we're in training phase, then zero the gradients and make sure the model is set to train
-        model.train()
-        optimizer.zero_grad()
-      else: # If we're in evaluation phase, then make sure the model is set to eval
-        model.eval()
 
-      with torch.set_grad_enabled(train): # Either to perform the next lines with gradient tracing or not
-        pred = model(x) # Get the model output from x
-        pred = pred.reshape(pred.shape[0], ) # Flatten the prediction values
+        df['Train'] = (ratings.groupby("userId").cumcount(ascending=False) != 0).replace({True:1, False:0})
 
-        y = torch.from_numpy(y.values.reshape(y.shape[0], )).float()
 
-        criterion = torch.nn.MSELoss() # Define the criterion as MSELoss from torch
-        loss = criterion(pred, y)
+        final = pd.concat([df_mapped[['userId','movieId']], cats_ohe,df[['Train','rating']]], axis=1)
 
-        if train:
-          loss.backward()
-          optimizer.step()
+        train = final[final.Train == 1]
+        test = final[final.Train == 0]
 
-      return loss
-      
-    def train_loop(model, train_loader, eval_loader, lr, w_decay, epochs, eval_step):
-      step = 0
-      """ Defining our optimizer """
-      optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=w_decay)
-      epochs_l, steps, t_losses, v_losses = [], [], [], []
+        
+        active_columns = pd.get_dummies(final[['userId','movieId']].astype(str))
+        dataset_train = DPMovieDataset(user_mappings.values, train, agg_history_norm, active_columns)
+        dataset_test = DPMovieDataset(user_mappings.values, test, agg_history_norm, active_columns)
 
-      epochs_tqdm = tqdm(range(epochs), desc='Training in Progress', leave=True)
-      for epoch in epochs_tqdm:
-        for x, y in train_loader:
-          loss_batch = model_step(model, x, y, optimizer, train=True)
-          step +=1
-          if step % eval_step == 0:
-            train_loss = loss_batch
-            val_loss = 0
-            for x, y in eval_loader:
-              val_loss += model_step(model, x, y, train=False)
-            epochs_l.append(epoch+1)
-            steps.append(step)
-            t_losses.append(train_loss.detach().numpy())
-            v_losses.append(val_loss.detach().numpy())
-            clear_output(wait=True)
-            display(pd.DataFrame({'Epoch': epochs_l, 'Step': steps, 'Training Loss': t_losses, 'Validation Loss': v_losses}))
+        dataloader_train = DataLoader(dataset_train,
+                                      sampler=BatchSampler(SequentialSampler(dataset_train), batch_size=10, drop_last=False),
+                                      batch_size=None)
+
+        dataloader_test = DataLoader(dataset_test,
+                                      sampler=BatchSampler(SequentialSampler(dataset_test), batch_size=10, drop_last=False),
+                                      batch_size=None)
+                                      
+        
             
-
-    file_path = "fm_model.pkl"  # Change the path as per your preference
-    with open(file_path, 'rb') as f:
-        model = pickle.load(f)
-    selected_new_id = selected_user_id    
-     # Save selected_new_id in a variable
-    new_id_variable = selected_new_id
-        
-    new=user_mappings.loc[new_id_variable].new_id
-    features,ratings = dataset_test[[new]]
+        features,ratings=dataset_train[[1]]
 
 
-    model.eval()
-    #with torch.no_grad():
-  
-    # Replace None with the new_id of the user
-    items_our_user_rated = (train[train.userId==new].movieId).unique().tolist()
-    items_our_user_rated.extend((test[test.userId==new].movieId).unique().tolist())
+        model = FactorizationMachine(n=11413, k=integer_value)
 
-    items_our_user_can_rate = movie_mappings[~movie_mappings.new_id.isin(items_our_user_rated)].new_id.tolist()
+        def model_step(mode, x, y=None, optimizer=None, train=True):
+          if train: # If we're in training phase, then zero the gradients and make sure the model is set to train
+            model.train()
+            optimizer.zero_grad()
+          else: # If we're in evaluation phase, then make sure the model is set to eval
+            model.eval()
+
+          with torch.set_grad_enabled(train): # Either to perform the next lines with gradient tracing or not
+            pred = model(x) # Get the model output from x
+            pred = pred.reshape(pred.shape[0], ) # Flatten the prediction values
+
+            y = torch.from_numpy(y.values.reshape(y.shape[0], )).float()
+
+            criterion = torch.nn.MSELoss() # Define the criterion as MSELoss from torch
+            loss = criterion(pred, y)
+
+            if train:
+              loss.backward()
+              optimizer.step()
+
+          return loss
+          
+        def train_loop(model, train_loader, eval_loader, lr, w_decay, epochs, eval_step):
+          step = 0
+          """ Defining our optimizer """
+          optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=w_decay)
+          epochs_l, steps, t_losses, v_losses = [], [], [], []
+
+          epochs_tqdm = tqdm(range(epochs), desc='Training in Progress', leave=True)
+          for epoch in epochs_tqdm:
+            for x, y in train_loader:
+              loss_batch = model_step(model, x, y, optimizer, train=True)
+              step +=1
+              if step % eval_step == 0:
+                train_loss = loss_batch
+                val_loss = 0
+                for x, y in eval_loader:
+                  val_loss += model_step(model, x, y, train=False)
+                epochs_l.append(epoch+1)
+                steps.append(step)
+                t_losses.append(train_loss.detach().numpy())
+                v_losses.append(val_loss.detach().numpy())
+                clear_output(wait=True)
+                display(pd.DataFrame({'Epoch': epochs_l, 'Step': steps, 'Training Loss': t_losses, 'Validation Loss': v_losses}))
+                
+
+        file_path = "fm_model.pkl"  # Change the path as per your preference
+        with open(file_path, 'rb') as f:
+            model = pickle.load(f)
+        selected_new_id = selected_user_id    
+         # Save selected_new_id in a variable
+        new_id_variable = selected_new_id
+            
+        new=user_mappings.loc[new_id_variable].new_id
+        features,ratings = dataset_test[[new]]
 
 
-    N = integer_value  # Number of recommendations
+        model.eval()
+        #with torch.no_grad():
+      
+        # Replace None with the new_id of the user
+        items_our_user_rated = (train[train.userId==new].movieId).unique().tolist()
+        items_our_user_rated.extend((test[test.userId==new].movieId).unique().tolist())
 
-    recommendations = []
-
-    model.eval()  # Set the model to evaluation mode
-
-    with torch.no_grad():
-        for item_id in items_our_user_can_rate:
-            features = dataset_test[[item_id]][0]  # Create a dataset for the item
-            #print(features)
-            # Check if the dataset for the item is empty
-            if features.nelement() == 0:
-                continue
-
-            predicted_rating = model(features).item()  # Get the predicted rating for the user
-
-            recommendations.append((item_id, predicted_rating))
-
-    # Sort the recommendations based on predicted ratings in descending order
-    recommendations.sort(key=lambda x: x[1], reverse=True)
-
-    # Select the top N recommendations
-    top_recommendations = recommendations[:N]
-
-    # Print the top recommendations
+        items_our_user_can_rate = movie_mappings[~movie_mappings.new_id.isin(items_our_user_rated)].new_id.tolist()
 
 
-    #st.write("Top Recommendations:")
-    for item_id, predicted_rating in top_recommendations:
-        movie_title = movie_mappings[movie_mappings.new_id == item_id].index[0]
-        
-    for item_id, predicted_rating in top_recommendations:
-        movie_title = movies[movies['movieId'] == item_id]['title'].values[0]
-        
-        # Create a container with a specified width and height
-        with st.container():
-            # Set the container's style to display as a rectangle with a border and padding
-            st.markdown(
-                """
-                <style>
-                .custom-box4 {
-                    background-color: #f5f5f5;
-                    border: 2px solid #336699;
-                    border-radius: 8px;
-                    padding: 12px;
-                    width: 40%;
-                    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-                }
+        N = integer_value  # Number of recommendations
 
-                .custom-text4 {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #336699;
-                    margin-bottom: 8px;
-                }
-                </style>
-                """
-            , unsafe_allow_html=True)
+        recommendations = []
 
-            # Display the movie title and predicted rating
-            st.write(
-                '<div class="custom-box4">'
-                f'<div class="custom-text4">{movie_title}</div>'
-                '</div>'
-                , unsafe_allow_html=True
-            )
+        model.eval()  # Set the model to evaluation mode
+
+        with torch.no_grad():
+            for item_id in items_our_user_can_rate:
+                features = dataset_test[[item_id]][0]  # Create a dataset for the item
+                #print(features)
+                # Check if the dataset for the item is empty
+                if features.nelement() == 0:
+                    continue
+
+                predicted_rating = model(features).item()  # Get the predicted rating for the user
+
+                recommendations.append((item_id, predicted_rating))
+
+        # Sort the recommendations based on predicted ratings in descending order
+        recommendations.sort(key=lambda x: x[1], reverse=True)
+
+        # Select the top N recommendations
+        top_recommendations = recommendations[:N]
+
+        # Print the top recommendations
+
+
+        #st.write("Top Recommendations:")
+        for item_id, predicted_rating in top_recommendations:
+            movie_title = movie_mappings[movie_mappings.new_id == item_id].index[0]
+            
+        for item_id, predicted_rating in top_recommendations:
+            movie_title = movies[movies['movieId'] == item_id]['title'].values[0]
+            
+            # Create a container with a specified width and height
+            with st.container():
+                # Set the container's style to display as a rectangle with a border and padding
+                st.markdown(
+                    """
+                    <style>
+                    .custom-box4 {
+                        background-color: #f5f5f5;
+                        border: 2px solid #336699;
+                        border-radius: 8px;
+                        padding: 12px;
+                        width: 40%;
+                        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .custom-text4 {
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #336699;
+                        margin-bottom: 8px;
+                    }
+                    </style>
+                    """
+                , unsafe_allow_html=True)
+
+                # Display the movie title and predicted rating
+                st.write(
+                    '<div class="custom-box4">'
+                    f'<div class="custom-text4">{movie_title}</div>'
+                    '</div>'
+                    , unsafe_allow_html=True
+                )
 
 
 def run_movie_based():
