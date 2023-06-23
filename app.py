@@ -48,15 +48,15 @@ user_ids = user_mappings.index.unique()
 mapping_dict = user_mappings['new_id'].to_dict()
 
 # Create the dropdown menu
-# Custom format function to change size and color
-def format_option(user_id):
-    return f'<span style="font-size: 16px; color: blue;">{user_id}</span>'
+# Custom CSS styling for selectbox options
+option_style = '<style>.user-option { font-size: 16px; color: blue; }</style>'
 
-# Create the selectbox with custom format function
-selected_user_id = st.selectbox('Select a userId:', user_ids, format_func=format_option, unsafe_allow_html=True)
+# Create the selectbox with custom CSS styling
+selected_user_id = st.selectbox(f'{option_style} Select a userId:', user_ids, format_func=lambda x: f'<span class="user-option">{x}</span>', unsafe_allow_html=True)
 
 # Display the selected user_id
 st.write("Selected userId:", selected_user_id)
+
 
 
 #selected_user_id = st.selectbox('Select a userId:', user_ids)
