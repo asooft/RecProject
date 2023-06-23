@@ -14,7 +14,25 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded', page_title='
 
         
 st.title('Recommender Movies Dashboard')
+# Apply custom CSS styles
+st.markdown(
+    """
+    <style>
+    .custom-text5 {
+        font-size: 24px; /* Change the font size as desired */
+        color: red; /* Change the color as desired */
+        font-weight: bold;
+    }
+    </style>
+    """
+    , unsafe_allow_html=True
+)
 
+# Display the text with custom styling
+st.write(
+    '<div class="custom-text5">User Based Recommendation</div>',
+    unsafe_allow_html=True
+)
 
 
 ratings=pd.read_csv("Dataset/ratings.csv")
@@ -49,7 +67,7 @@ mapping_dict = user_mappings['new_id'].to_dict()
 
 # Create the dropdown menu
 # Select a userId using st.selectbox
-selected_user_id = st.selectbox('Select a userId:', user_ids)
+selected_user_id = st.selectbox('Select a user Id:', user_ids)
 
 # Get the corresponding new_id using the mapping_dict
 selected_new_id = mapping_dict[selected_user_id]
@@ -61,7 +79,7 @@ mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new
 #st.write(mapping_df)
 
 # Display a name for the input field and get the numeric input
-valueS = st.number_input("enter top number of similar movies you want:", value=5, step=1, format="%d")
+valueS = st.number_input("Enter top number of similar movies you want:", value=5, step=1, format="%d")
 
 # Convert the input value to an integer
 integer_value = int(valueS)
