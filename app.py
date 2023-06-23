@@ -474,10 +474,9 @@ def run_code2():
 
 # Streamlit app code
 def main():
-    st.title("Button Example")
 
     # Add two buttons
-    if st.button("Button 1"):
+    if st.button("User Based Recommendation"):
         run_code1()
 
     if st.button("Button 2"):
