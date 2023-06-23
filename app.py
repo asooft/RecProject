@@ -401,7 +401,7 @@ def main():
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Create a container for the buttons and apply the custom CSS class
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown('<div class="centered-button">', unsafe_allow_html=True)
         if st.button("User Based Recommendation"):
