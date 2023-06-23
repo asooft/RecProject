@@ -382,7 +382,7 @@ def main():
 
     image = Image.open(image)
 
-    st.image(image, width = '30%')
+    st.image(image, width = '300')
 
     
 
