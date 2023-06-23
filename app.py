@@ -66,7 +66,7 @@ valueS = st.number_input("Enter a Top Number of movies you want", value=5, step=
 integer_value = int(valueS)
 
 # Use the entered integer
-st.write("Top Number of movies you want:", integer_value)
+#st.write("Top Number of movies you want:", integer_value)
 
 #integer_value = 5
 movie_mappings = df['movieId'].drop_duplicates().reset_index(drop=True).reset_index().rename(columns={'index': 'new_id'}).set_index('movieId')
