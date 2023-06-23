@@ -60,7 +60,7 @@ mapping_df = pd.DataFrame({'userId': [selected_user_id], 'new_id': [selected_new
 #st.write(mapping_df)
 
 # Display a name for the input field and get the numeric input
-valueS = st.number_input("Enter a Top Number of movies you want", value=5, step=1, format="%d")
+valueS = st.number_input("Enter a Top Number of movies you want:", value=5, step=1, format="%d")
 
 # Convert the input value to an integer
 integer_value = int(valueS)
@@ -429,7 +429,7 @@ for item_id, predicted_rating in top_recommendations:
         # Display the movie title and predicted rating
         st.write(
             '<div class="custom-box4">'
-            f'<div class="custom-text4">Movie: {movie_title} </br>Predicted Rating: {round(predicted_rating,3)}</div>'
+            f'<div class="custom-text4">Movie: {movie_title}</div>'
             '</div>'
             , unsafe_allow_html=True
         )
