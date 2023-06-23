@@ -284,82 +284,13 @@ def run_code1():
 
     model.eval()
     #with torch.no_grad():
-      #st.write(f'Predicted rating for User of interest: {model(features).item()}') # Get the model output on the user of interest after running the previous cell to now their new_id
-      #st.write(f'Actual Rating: {ratings.values[0]}') # Extract the actual rating for the user of interest from dataset_test Dataset object
-      # Create a container with a specified width and height
-        # with st.container():
-            # # Set the container's style to display as a rectangle with a border and padding
-            # st.markdown(
-                # """
-                # <style>
-                # .rectangle-box {
-                    # background-color: #f5f5f5;
-                    # border: 1px solid #d3d3d3;
-                    # border-radius: 5px;
-                    # padding: 10px;
-                # }
-                # </style>
-                # """
-            # , unsafe_allow_html=True)
-
-            # # Display the predicted rating
-            # st.write(
-                # f'<div class="rectangle-box">Predicted rating for User of interest: {round(model(features).item(),3)}</div>'
-                # , unsafe_allow_html=True
-            # )
-
-            # # Display the actual rating
-            # st.write(
-                # f'<div class="rectangle-box">Actual Rating: {ratings.values[0]}</div>'
-                # , unsafe_allow_html=True
-            # )
-      
-
-
+  
     # Replace None with the new_id of the user
     items_our_user_rated = (train[train.userId==new].movieId).unique().tolist()
     items_our_user_rated.extend((test[test.userId==new].movieId).unique().tolist())
 
     items_our_user_can_rate = movie_mappings[~movie_mappings.new_id.isin(items_our_user_rated)].new_id.tolist()
 
-    # Create a container with a specified width and height
-    #with st.container():
-        # Set the container's style to display as a rectangle with a border and padding
-        # st.markdown(
-            # """
-            # <style>
-            # .custom-box {
-                # background-color: #D1F1D0;
-                # border: 1px solid #d3d3d3;
-                # border-radius: 5px;
-                # padding: 10px;
-            # }
-            # </style>
-            # """
-        # , unsafe_allow_html=True)
-
-        # # Display the number of unique items user of interest rated
-        # st.write(
-            # f'<div class="custom-box">Number of unique items user of interest rated is {len(items_our_user_rated)}</div>'
-            # , unsafe_allow_html=True
-        # )
-
-        # # Display the number of unique items that can be recommended to user of interest
-        # st.write(
-            # f'<div class="custom-box">Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}</div>'
-            # , unsafe_allow_html=True
-        # )
-
-        # # Display the preview of the item list
-        # st.write(
-            # f'<div class="custom-box">Preview of the item list: {items_our_user_can_rate[:integer_value]}</div>'
-            # , unsafe_allow_html=True
-        # )
-
-        
-    #st.write(f'Number of unique items user of interest rated is {len(items_our_user_rated)}')
-    #st.write(f'Number of unique items that can be recommended to user of interest is {len(items_our_user_can_rate)}')
-    #st.write(f'Preview of the item list:\n\t{items_our_user_can_rate[:integer_value]}')
 
     N = integer_value  # Number of recommendations
 
@@ -391,44 +322,7 @@ def run_code1():
     #st.write("Top Recommendations:")
     for item_id, predicted_rating in top_recommendations:
         movie_title = movie_mappings[movie_mappings.new_id == item_id].index[0]
-        # Create a container with a specified width and height
-        # Create a container with a specified width and height
-        # with st.container():
-            # # Set the container's style to display as a rectangle with a border and padding
-            # st.markdown(
-                # """
-                # <style>
-                # .custom-box3 {
-                    # background-color: #f8f8f8;
-                    # border: 2px solid #4e6bff;
-                    # border-radius: 10px;
-                    # padding: 15px;
-                # }
-
-                # .custom-text3 {
-                    # font-size: 18px;
-                    # font-weight: bold;
-                    # color: #4e6bff;
-                    # margin-bottom: 10px;
-                # }
-                # </style>
-                # """
-            # , unsafe_allow_html=True)
-
-            # # Display the movie title and predicted rating
-            # st.write(
-                # f'<div class="custom-box3">'
-                # f'<div class="custom-text3">Movie: {movie_title}, Predicted Rating: {predicted_rating}</div>'
-                # f'</div>'
-                # , unsafe_allow_html=True
-            # )
-
-
         
-        #st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
-        
-        # Print the top recommendations with movie names
-    #print("Top Recommendations:")
     for item_id, predicted_rating in top_recommendations:
         movie_title = movies[movies['movieId'] == item_id]['title'].values[0]
         
@@ -466,7 +360,7 @@ def run_code1():
             )
 
 
-        #st.write(f"Movie: {movie_title}, Predicted Rating: {predicted_rating}")
+
 
 
 def run_code2():
@@ -474,15 +368,25 @@ def run_code2():
 
 # Streamlit app code
 def main():
+    # Define images for buttons
+    image1 = "images/r1.png"
+    image2 = "images/r2.png"
 
-    # Add two buttons
-    if st.button("User Based Recommendation"):
-        run_code1()
+    # Add buttons with images
+    col1, col2 = st.beta_columns(2)
 
-    if st.button("Button 2"):
-        run_code2()
+    if col1.button("User Based Recommendation"):
+        run_user_based()
+
+    col1.image(image1, use_column_width=True)
+
+    if col2.button("Movie Based Recommendation"):
+        run_movie_based()
+
+    col2.image(image2, use_column_width=True)
 
 if __name__ == "__main__":
     main()
+
     
 
