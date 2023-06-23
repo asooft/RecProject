@@ -360,9 +360,6 @@ def run_user_based():
             )
 
 
-
-
-
 def run_movie_based():
     st.write("Code 2 is running!")
 
@@ -375,16 +372,15 @@ def main():
     # Add buttons with images
     col1, col2 = st.columns(2)
 
-
-    if col1.button(label='', help='User Based Recommendation', on_click=run_user_based):
+    if col1.button("User Based Recommendation"):
         run_user_based()
-    col1.markdown(f'<img src="{image1}" alt="User Based Recommendation" style="width: 150px; height: 150px;">',
-                  unsafe_allow_html=True)
 
-    if col2.button(label='', help='User Based Recommendation', on_click=run_user_based):
+    col1.image(image1, use_column_width=True)
+
+    if col2.button("Movie Based Recommendation"):
         run_movie_based()
-    col1.markdown(f'<img src="{image2}" alt="Movie Based Recommendation" style="width: 150px; height: 150px;">',
-                  unsafe_allow_html=True)
+
+    col2.image(image2, use_column_width=True)
 
 if __name__ == "__main__":
     main()
