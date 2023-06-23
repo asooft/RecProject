@@ -16,7 +16,7 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded', page_title='
 st.title('Recommender Movies Dashboard')
 
 
-@st.cache_data()
+
 ratings=pd.read_csv("Dataset/ratings.csv")
 movies=pd.read_csv("Dataset/movies.csv")
 df = pd.merge(ratings, movies, on='movieId', how='left')
@@ -102,7 +102,7 @@ final = pd.concat([df_mapped[['userId','movieId']], cats_ohe,df[['Train','rating
 train = final[final.Train == 1]
 test = final[final.Train == 0]
 
-
+@st.cache_data()
 class DPMovieDataset(Dataset):
   def __init__(self, user_ids, data, agg_hist, active_matrix, recommendation=False):
     self.user_ids = user_ids
