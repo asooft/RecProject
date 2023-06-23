@@ -65,7 +65,7 @@ css = """
 st.markdown(css, unsafe_allow_html=True)
 
 # Display the select box
-st.selectbox('Select a userId:', user_ids, key='custom-selectbox')
+selected_user_id = st.selectbox('Select a userId:', user_ids, key='custom-selectbox')
 
 
 
