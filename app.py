@@ -476,7 +476,9 @@ def run_movie_based():
             
         # Get the selected movie from the selectbox
         st.write('First 20 Movies')
-        selected_movie = st.radio("Choose a movie", movies['title'].unique()[0:20], index=0, key='movie_select')
+        #selected_user_id = st.radio('Select a user Id:', user_ids[0:10])
+        moviesNames = movies['title'].unique()
+        selected_movie = st.radio("Choose a movie", moviesNames[0:20])
 
 
         # Filter the DataFrame based on the selected movie
