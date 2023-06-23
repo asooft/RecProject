@@ -376,7 +376,7 @@ def main():
             border: 1px solid gray;
             padding: 10px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            width:30%;
+            width:500px;
         }
         </style>
         """, unsafe_allow_html=True)
@@ -386,7 +386,7 @@ def main():
     # Apply CSS class to the image container
     
     # Wrap the image with a div and apply CSS class
-    st.markdown(f'<div class="image-container">{st.image(image, output_format="PNG")}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="image-container">{st.image(image, output_format="PNG")}</div>')
 
     
 
