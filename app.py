@@ -367,7 +367,7 @@ def run_movie_based():
 # Streamlit app code
 def main():
     # Define images for buttons
-    image = "images/r1.png"
+    image_path = "images/r1.png"
     
     # Add custom CSS style
     st.markdown("""
@@ -376,17 +376,16 @@ def main():
             border: 1px solid gray;
             padding: 10px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            width:500px;
+            width: 30%;
         }
         </style>
-        """)
+        """, unsafe_allow_html=True)
 
-    image = Image.open(image)
+    image = Image.open(image_path)
 
-    # Apply CSS class to the image container
-    
     # Wrap the image with a div and apply CSS class
-    st.markdown(f'<div class="image-container">{st.image(image, output_format="PNG")}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="image-container">{st.image(image, output_format="PNG", use_column_width=True, caption="Image")}</div>', unsafe_allow_html=True)
+
 
     
 
