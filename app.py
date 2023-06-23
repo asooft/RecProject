@@ -417,37 +417,37 @@ def run_movie_based():
         #st.write(f"Top {k} Similar Movies to '{movie_name}':")
         for index, row in similar_movies.iterrows():
             # Create a container with a specified width and height
-        with st.container():
-            # Set the container's style to display as a rectangle with a border and padding
-            st.markdown(
-                """
-                <style>
-                .custom-box4 {
-                    background-color: #f5f5f5;
-                    border: 2px solid #336699;
-                    border-radius: 8px;
-                    padding: 12px;
-                    width: 40%;
-                    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-                }
+            with st.container():
+                # Set the container's style to display as a rectangle with a border and padding
+                st.markdown(
+                    """
+                    <style>
+                    .custom-box4 {
+                        background-color: #f5f5f5;
+                        border: 2px solid #336699;
+                        border-radius: 8px;
+                        padding: 12px;
+                        width: 40%;
+                        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+                    }
 
-                .custom-text4 {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #336699;
-                    margin-bottom: 8px;
-                }
-                </style>
-                """
-            , unsafe_allow_html=True)
+                    .custom-text4 {
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #336699;
+                        margin-bottom: 8px;
+                    }
+                    </style>
+                    """
+                , unsafe_allow_html=True)
 
-            # Display the movie title and predicted rating
-            st.write(
-                '<div class="custom-box4">'
-                f'<div class="custom-text4">{row['title']}</div>'
-                '</div>'
-                , unsafe_allow_html=True
-            )
+                # Display the movie title and predicted rating
+                st.write(
+                    '<div class="custom-box4">'
+                    f'<div class="custom-text4">{row['title']}</div>'
+                    '</div>'
+                    , unsafe_allow_html=True
+                )
             #st.write(row['title'])
         
     # Create a selectbox to choose a movie
