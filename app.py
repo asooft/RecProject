@@ -372,7 +372,7 @@ def run_movie_based():
     data = SurpriseDataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
     
     # Load the KNN model from the file
-    loaded_model = joblib.load('knn_model.pkl')
+    model = joblib.load('knn_model.pkl')
     
     def get_similar_movies(movie_name, k):
         tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
