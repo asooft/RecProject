@@ -7,6 +7,16 @@ import numpy as np
 from tqdm import tqdm
 import pickle
 from PIL import Image
+from surprise import SVD
+from surprise import Dataset
+from surprise import accuracy
+from surprise.model_selection import train_test_split
+from surprise import KNNBasic,  KNNWithMeans, KNNBaseline
+from surprise.model_selection import KFold
+from surprise import Reader
+from surprise import NormalPredictor
+from surprise.model_selection import cross_validate
+from surprise.model_selection import GridSearchCV
 from itertools import product
 from IPython.display import display, clear_output
 from torch.utils.data import Dataset, DataLoader, SequentialSampler, BatchSampler
@@ -58,6 +68,9 @@ class FactorizationMachine(torch.nn.Module):
         inter_term = (part_1 - part_2)/2 # Put the interaction term parts together (refer to the equations above)
         var_strength = self.linear(x_batch) # Perform the linear part of the model equation (refer to the demo notebook on how to use layers in pytorch models)
         return var_strength + inter_term
+        
+ratings=pd.read_csv("Dataset/ratings.csv")
+movies=pd.read_csv("Dataset/movies.csv")
           
 def run_user_based():
         
@@ -81,9 +94,6 @@ def run_user_based():
         unsafe_allow_html=True
     )
 
-
-    ratings=pd.read_csv("Dataset/ratings.csv")
-    movies=pd.read_csv("Dataset/movies.csv")
     df = pd.merge(ratings, movies, on='movieId', how='left')
     first_100_users = df['userId'].unique()[:100]
     df = df[df['userId'].isin(first_100_users)]
@@ -130,7 +140,6 @@ def run_user_based():
 
     # Convert the input value to an integer
     integer_value = int(valueS)
-    
     
         # Create a container with a specified width and height
     with st.container():
@@ -362,7 +371,44 @@ def run_user_based():
 
 
 def run_movie_based():
-    st.write("Code 2 is running!")
+    df = pd.merge(ratings,movies,on='movieId')
+    reader = Reader(rating_scale=(1, 5))
+    data = Dataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
+    
+    # Load the KNN model from the file
+    with open('knn_model.pkl', 'rb') as f:
+        model = pickle.load(f)    
+    
+    def get_similar_movies(movie_name, k):
+    tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
+    tsr_neighbors = model.get_neighbors(tsr_inner_id, k=k)
+    similar_movie_ids = [model.trainset.to_raw_iid(inner_id) for inner_id in tsr_neighbors]
+
+    similar_movies = movies[movies['movieId'].isin(similar_movie_ids)].copy()
+    similar_movies['similarity'] = [model.sim[tsr_inner_id, model.trainset.to_inner_iid(movie_id)] for movie_id in similar_movie_ids]
+    similar_movies.sort_values(by='similarity', ascending=False, inplace=True)
+
+    st.write(f"Top {k} Similar Movies to '{movie_name}':")
+    for index, row in similar_movies.iterrows():
+        st.write(row['title'], "(Similarity:", row['similarity'], ")")
+        
+    # Create a selectbox to choose a movie
+    selected_movie = st.selectbox("Select a movie", movies['Title'].unique())
+
+    # Filter the DataFrame based on the selected movie
+    #filtered_movies = movies[movies['Title'] == selected_movie]
+
+    # Display the filtered movies
+    #st.write(filtered_movies)
+    
+    # Display a name for the input field and get the numeric input
+    valueS = st.number_input("Enter top number of similar movies you want:", value=5, step=1, format="%d")
+
+    # Convert the input value to an integer
+    integer_value = int(valueS)
+    
+    get_similar_movies(selected_movie, integer_value)
+
 
 # Streamlit app code
 def main():
