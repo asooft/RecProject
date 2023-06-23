@@ -129,6 +129,39 @@ def run_code1():
 
     # Convert the input value to an integer
     integer_value = int(valueS)
+    
+    
+        # Create a container with a specified width and height
+    with st.container():
+        # Set the container's style to display as a rectangle with a border and padding
+        st.markdown(
+            """
+            <style>
+            .custom-box2 {
+                background-color: #f8f8f8;
+                border: 2px solid #4e6bff;
+                border-radius: 10px;
+                padding: 15px;
+                width: 40%;
+            }
+
+            .custom-title2 {
+                font-size: 24px;
+                font-weight: bold;
+                color: #4e6bff;
+                margin-bottom: 10px;
+            }
+            </style>
+            """
+        , unsafe_allow_html=True)
+
+        # Display the "Top Recommendations" title
+        st.write(
+            '<div class="custom-box2">'
+            '<div class="custom-title2">Top Recommendations Movies</div>'
+            '</div>'
+            , unsafe_allow_html=True
+        )
 
     # Use the entered integer
     #st.write("Top Number of movies you want:", integer_value)
@@ -353,37 +386,7 @@ def run_code1():
     top_recommendations = recommendations[:N]
 
     # Print the top recommendations
-    # Create a container with a specified width and height
-    with st.container():
-        # Set the container's style to display as a rectangle with a border and padding
-        st.markdown(
-            """
-            <style>
-            .custom-box2 {
-                background-color: #f8f8f8;
-                border: 2px solid #4e6bff;
-                border-radius: 10px;
-                padding: 15px;
-                width: 40%;
-            }
 
-            .custom-title2 {
-                font-size: 24px;
-                font-weight: bold;
-                color: #4e6bff;
-                margin-bottom: 10px;
-            }
-            </style>
-            """
-        , unsafe_allow_html=True)
-
-        # Display the "Top Recommendations" title
-        st.write(
-            '<div class="custom-box2">'
-            '<div class="custom-title2">Top Recommendations Movies</div>'
-            '</div>'
-            , unsafe_allow_html=True
-        )
 
     #st.write("Top Recommendations:")
     for item_id, predicted_rating in top_recommendations:
