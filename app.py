@@ -58,7 +58,7 @@ class FactorizationMachine(torch.nn.Module):
         var_strength = self.linear(x_batch) # Perform the linear part of the model equation (refer to the demo notebook on how to use layers in pytorch models)
         return var_strength + inter_term
           
-def run_code1():
+def run_user_based():
         
     # Apply custom CSS styles
     st.markdown(
@@ -363,7 +363,7 @@ def run_code1():
 
 
 
-def run_code2():
+def run_movie_based():
     st.write("Code 2 is running!")
 
 # Streamlit app code
@@ -376,15 +376,15 @@ def main():
     col1, col2 = st.columns(2)
 
 
-    if col1.button("User Based Recommendation"):
+    if col1.button(label='', help='User Based Recommendation', on_click=run_user_based):
         run_user_based()
+    col1.markdown(f'<img src="{image1}" alt="User Based Recommendation" style="width: 150px; height: 150px;">',
+                  unsafe_allow_html=True)
 
-    col1.image(image1, use_column_width=True)
-
-    if col2.button("Movie Based Recommendation"):
+    if col2.button(label='', help='User Based Recommendation', on_click=run_user_based):
         run_movie_based()
-
-    col2.image(image2, use_column_width=True)
+    col1.markdown(f'<img src="{image2}" alt="Movie Based Recommendation" style="width: 150px; height: 150px;">',
+                  unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
