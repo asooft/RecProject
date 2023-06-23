@@ -352,7 +352,7 @@ with st.container():
     # Display the "Top Recommendations" title
     st.write(
         '<div class="custom-box2">'
-        '<div class="custom-title2">Top Recommendations</div>'
+        '<div class="custom-title2">Top Recommendations Movies</div>'
         '</div>'
         , unsafe_allow_html=True
     )
@@ -429,7 +429,7 @@ for item_id, predicted_rating in top_recommendations:
         # Display the movie title and predicted rating
         st.write(
             '<div class="custom-box4">'
-            f'<div class="custom-text4">Movie: {movie_title}</div>'
+            f'<div class="custom-text4">{movie_title}</div>'
             '</div>'
             , unsafe_allow_html=True
         )
