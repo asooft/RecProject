@@ -395,103 +395,103 @@ def run_movie_based():
     df = pd.merge(ratings,movies,on='movieId')
     reader = Reader(rating_scale=(1, 5))
     data = SurpriseDataset.load_from_df(df[['userId', 'movieId', 'rating']], reader)
-    
-    # Load the KNN model from the file
-    model = joblib.load('knn_model.pkl')
-    
-    def get_similar_movies(movie_name, k):
-        tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
-        tsr_neighbors = model.get_neighbors(tsr_inner_id, k=k)
-        similar_movie_ids = [model.trainset.to_raw_iid(inner_id) for inner_id in tsr_neighbors]
-
-        similar_movies = movies[movies['movieId'].isin(similar_movie_ids)].copy()
-        similar_movies['similarity'] = [model.sim[tsr_inner_id, model.trainset.to_inner_iid(movie_id)] for movie_id in similar_movie_ids]
-        similar_movies.sort_values(by='similarity', ascending=False, inplace=True)
+    with st.spinner('Loading Recommendation'):
+        # Load the KNN model from the file
+        model = joblib.load('knn_model.pkl')
         
-        with st.container():
-        # Set the container's style to display as a rectangle with a border and padding
-            st.markdown(
-                """
-                <style>
-                .custom-box2 {
-                    background-color: #f8f8f8;
-                    border: 2px solid #4e6bff;
-                    border-radius: 10px;
-                    padding: 15px;
-                    width: 40%;
-                }
+        def get_similar_movies(movie_name, k):
+            tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
+            tsr_neighbors = model.get_neighbors(tsr_inner_id, k=k)
+            similar_movie_ids = [model.trainset.to_raw_iid(inner_id) for inner_id in tsr_neighbors]
 
-                .custom-title2 {
-                    font-size: 24px;
-                    font-weight: bold;
-                    color: #4e6bff;
-                    margin-bottom: 10px;
-                }
-                </style>
-                """
-            , unsafe_allow_html=True)
+            similar_movies = movies[movies['movieId'].isin(similar_movie_ids)].copy()
+            similar_movies['similarity'] = [model.sim[tsr_inner_id, model.trainset.to_inner_iid(movie_id)] for movie_id in similar_movie_ids]
+            similar_movies.sort_values(by='similarity', ascending=False, inplace=True)
             
-            html_string = f'<div class="custom-box2">' \
-                          f'<div class="custom-title2">Top {k} Similar Movies to \'{movie_name}\':</div>' \
-                          f'</div>'
-
-            # Display the HTML string in Streamlit
-            st.write(html_string, unsafe_allow_html=True)
-        
-
-        #st.write(f"Top {k} Similar Movies to '{movie_name}':")
-        for index, row in similar_movies.iterrows():
-            # Create a container with a specified width and height
             with st.container():
-                # Set the container's style to display as a rectangle with a border and padding
+            # Set the container's style to display as a rectangle with a border and padding
                 st.markdown(
                     """
                     <style>
-                    .custom-box4 {
-                        background-color: #f5f5f5;
-                        border: 2px solid #336699;
-                        border-radius: 8px;
-                        padding: 12px;
+                    .custom-box2 {
+                        background-color: #f8f8f8;
+                        border: 2px solid #4e6bff;
+                        border-radius: 10px;
+                        padding: 15px;
                         width: 40%;
-                        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
                     }
 
-                    .custom-text4 {
-                        font-size: 18px;
+                    .custom-title2 {
+                        font-size: 24px;
                         font-weight: bold;
-                        color: #336699;
-                        margin-bottom: 8px;
+                        color: #4e6bff;
+                        margin-bottom: 10px;
                     }
                     </style>
                     """
                 , unsafe_allow_html=True)
-
-                html_string = f'<div class="custom-box4">' \
-                              f'<div class="custom-text4">{row["title"]}</div>' \
+                
+                html_string = f'<div class="custom-box2">' \
+                              f'<div class="custom-title2">Top {k} Similar Movies to \'{movie_name}\':</div>' \
                               f'</div>'
 
                 # Display the HTML string in Streamlit
                 st.write(html_string, unsafe_allow_html=True)
-                #st.write(row['title'])
+            
+
+            #st.write(f"Top {k} Similar Movies to '{movie_name}':")
+            for index, row in similar_movies.iterrows():
+                # Create a container with a specified width and height
+                with st.container():
+                    # Set the container's style to display as a rectangle with a border and padding
+                    st.markdown(
+                        """
+                        <style>
+                        .custom-box4 {
+                            background-color: #f5f5f5;
+                            border: 2px solid #336699;
+                            border-radius: 8px;
+                            padding: 12px;
+                            width: 40%;
+                            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+                        }
+
+                        .custom-text4 {
+                            font-size: 18px;
+                            font-weight: bold;
+                            color: #336699;
+                            margin-bottom: 8px;
+                        }
+                        </style>
+                        """
+                    , unsafe_allow_html=True)
+
+                    html_string = f'<div class="custom-box4">' \
+                                  f'<div class="custom-text4">{row["title"]}</div>' \
+                                  f'</div>'
+
+                    # Display the HTML string in Streamlit
+                    st.write(html_string, unsafe_allow_html=True)
+                    #st.write(row['title'])
+            
+        # Get the selected movie from the selectbox
+        st.write('First 20 Movies')
+        selected_movie = st.radio("Choose a movie", movies['title'].unique()[0:20], index=0, key='movie_select')
+
+
+        # Filter the DataFrame based on the selected movie
+        #filtered_movies = movies[movies['title'] == selected_movie]
+
+        # Display the filtered movies
+        #st.write(filtered_movies)
         
-    # Get the selected movie from the selectbox
-    st.write('First 20 Movies')
-    selected_movie = st.radio("Choose a movie", movies['title'].unique()[0:20], index=0, key='movie_select')
+        # Display a name for the input field and get the numeric input
+        valueS = st.number_input("Enter top number of similar movies you want:", value=5, step=1, format="%d")
 
-
-    # Filter the DataFrame based on the selected movie
-    #filtered_movies = movies[movies['title'] == selected_movie]
-
-    # Display the filtered movies
-    #st.write(filtered_movies)
-    
-    # Display a name for the input field and get the numeric input
-    valueS = st.number_input("Enter top number of similar movies you want:", value=5, step=1, format="%d")
-
-    # Convert the input value to an integer
-    integer_value = int(valueS)
-    
-    get_similar_movies(selected_movie, integer_value)
+        # Convert the input value to an integer
+        integer_value = int(valueS)
+        
+        get_similar_movies(selected_movie, integer_value)
 
 
 # Streamlit app code
