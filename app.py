@@ -380,17 +380,17 @@ def run_movie_based():
         model = pickle.load(f)    
     
     def get_similar_movies(movie_name, k):
-    tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
-    tsr_neighbors = model.get_neighbors(tsr_inner_id, k=k)
-    similar_movie_ids = [model.trainset.to_raw_iid(inner_id) for inner_id in tsr_neighbors]
+        tsr_inner_id = model.trainset.to_inner_iid(movies[movies['title'] == movie_name]['movieId'].values[0])
+        tsr_neighbors = model.get_neighbors(tsr_inner_id, k=k)
+        similar_movie_ids = [model.trainset.to_raw_iid(inner_id) for inner_id in tsr_neighbors]
 
-    similar_movies = movies[movies['movieId'].isin(similar_movie_ids)].copy()
-    similar_movies['similarity'] = [model.sim[tsr_inner_id, model.trainset.to_inner_iid(movie_id)] for movie_id in similar_movie_ids]
-    similar_movies.sort_values(by='similarity', ascending=False, inplace=True)
+        similar_movies = movies[movies['movieId'].isin(similar_movie_ids)].copy()
+        similar_movies['similarity'] = [model.sim[tsr_inner_id, model.trainset.to_inner_iid(movie_id)] for movie_id in similar_movie_ids]
+        similar_movies.sort_values(by='similarity', ascending=False, inplace=True)
 
-    st.write(f"Top {k} Similar Movies to '{movie_name}':")
-    for index, row in similar_movies.iterrows():
-        st.write(row['title'], "(Similarity:", row['similarity'], ")")
+        st.write(f"Top {k} Similar Movies to '{movie_name}':")
+        for index, row in similar_movies.iterrows():
+            st.write(row['title'], "(Similarity:", row['similarity'], ")")
         
     # Create a selectbox to choose a movie
     selected_movie = st.selectbox("Select a movie", movies['Title'].unique())
