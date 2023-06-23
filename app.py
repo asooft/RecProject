@@ -5,6 +5,7 @@ import torch
 import requests
 import numpy as np
 from tqdm import tqdm
+import pickle
 from itertools import product
 from IPython.display import display, clear_output
 from torch.utils.data import Dataset, DataLoader, SequentialSampler, BatchSampler
@@ -233,7 +234,7 @@ def run_code1():
 
 
 
-    import pickle
+    
     file_path = "fm_model.pkl"  # Change the path as per your preference
     with open(file_path, 'rb') as f:
         model = pickle.load(f)
