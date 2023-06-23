@@ -373,7 +373,8 @@ def main():
     image2 = "images/r2.png"
 
     # Add buttons with images
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
+
 
     if col1.button("User Based Recommendation"):
         run_user_based()
