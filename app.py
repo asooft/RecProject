@@ -17,7 +17,47 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded', page_title='
 st.title('Recommender Movies Dashboard')
 
 
+class DPMovieDataset(Dataset):
+      def __init__(self, user_ids, data, agg_hist, active_matrix, recommendation=False):
+        self.user_ids = user_ids
+        self.data = data
+        self.agg_hist = agg_hist
+        self.active_matrix = active_matrix
+        self.recommendation = recommendation
 
+      def __len__(self):
+        return self.user_ids.shape[0]
+
+      def __getitem__(self, idx):
+        batch_data = self.data[self.data['userId'].isin(idx)] # Select the rows corresponding to the list of user indices `idx` from self.data dataframe
+        cat_cols = batch_data[['Adventure', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Romance', 'Drama', 'Action', 'Crime', 'Thriller', 'Horror', 'Mystery', 'Sci-Fi', 'War', 'Musical', 'Documentary', 'IMAX', 'Western', 'Film-Noir', '(no genres listed)']] # From batch_data extract only the one-hot encoded categorical columns
+        agg_history = batch_data[['userId']].merge(self.agg_hist, left_on='userId', right_index=True) # Get the aggregated history for each selected transaction using merge
+        active_groups = self.active_matrix[self.active_matrix.index.isin(batch_data.index)] # Select the rows corresponding to the indices of the transactions selected in batch_data
+
+        features = torch.from_numpy(np.hstack((active_groups.values, agg_history.values, cat_cols.values))) # Concatenate the processed columns together horizontally
+
+        if not self.recommendation:
+          targets = batch_data['rating']
+          return features, targets
+        else:
+          return features
+          
+class FactorizationMachine(torch.nn.Module):
+      def __init__(self, n, k, bias=False):
+        super(FactorizationMachine, self).__init__()
+        self.n = n
+        self.k = k
+        self.linear = torch.nn.Linear(self.n, 1, bias)
+        self.V = torch.nn.Parameter(torch.randn(n,k)) # Creating the latent matrix V of size (n X k) and initializing it with random values
+
+      def forward(self, x_batch):
+        x_batch = x_batch.float()
+        part_1 = torch.matmul(x_batch, self.V).pow(2).sum(1, keepdim=True)  # perform the first part of the interaction term: row-wise-sum((XV)^2)
+        part_2 = torch.matmul(x_batch.pow(2), self.V.pow(2)).sum(1, keepdim=True) # perform the second part of the interaction term: row-wise-sum((X)^2 * (V)^2))
+        inter_term = (part_1 - part_2)/2 # Put the interaction term parts together (refer to the equations above)
+        var_strength = self.linear(x_batch) # Perform the linear part of the model equation (refer to the demo notebook on how to use layers in pytorch models)
+        return var_strength + inter_term
+          
 def run_code1():
         
     # Apply custom CSS styles
@@ -128,30 +168,7 @@ def run_code1():
     test = final[final.Train == 0]
 
 
-    class DPMovieDataset(Dataset):
-      def __init__(self, user_ids, data, agg_hist, active_matrix, recommendation=False):
-        self.user_ids = user_ids
-        self.data = data
-        self.agg_hist = agg_hist
-        self.active_matrix = active_matrix
-        self.recommendation = recommendation
-
-      def __len__(self):
-        return self.user_ids.shape[0]
-
-      def __getitem__(self, idx):
-        batch_data = self.data[self.data['userId'].isin(idx)] # Select the rows corresponding to the list of user indices `idx` from self.data dataframe
-        cat_cols = batch_data[['Adventure', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Romance', 'Drama', 'Action', 'Crime', 'Thriller', 'Horror', 'Mystery', 'Sci-Fi', 'War', 'Musical', 'Documentary', 'IMAX', 'Western', 'Film-Noir', '(no genres listed)']] # From batch_data extract only the one-hot encoded categorical columns
-        agg_history = batch_data[['userId']].merge(self.agg_hist, left_on='userId', right_index=True) # Get the aggregated history for each selected transaction using merge
-        active_groups = self.active_matrix[self.active_matrix.index.isin(batch_data.index)] # Select the rows corresponding to the indices of the transactions selected in batch_data
-
-        features = torch.from_numpy(np.hstack((active_groups.values, agg_history.values, cat_cols.values))) # Concatenate the processed columns together horizontally
-
-        if not self.recommendation:
-          targets = batch_data['rating']
-          return features, targets
-        else:
-          return features
+    
           
     active_columns = pd.get_dummies(final[['userId','movieId']].astype(str))
     dataset_train = DPMovieDataset(user_mappings.values, train, agg_history_norm, active_columns)
@@ -165,21 +182,7 @@ def run_code1():
                                   sampler=BatchSampler(SequentialSampler(dataset_test), batch_size=10, drop_last=False),
                                   batch_size=None)
                                   
-    class FactorizationMachine(torch.nn.Module):
-      def __init__(self, n, k, bias=False):
-        super(FactorizationMachine, self).__init__()
-        self.n = n
-        self.k = k
-        self.linear = torch.nn.Linear(self.n, 1, bias)
-        self.V = torch.nn.Parameter(torch.randn(n,k)) # Creating the latent matrix V of size (n X k) and initializing it with random values
-
-      def forward(self, x_batch):
-        x_batch = x_batch.float()
-        part_1 = torch.matmul(x_batch, self.V).pow(2).sum(1, keepdim=True)  # perform the first part of the interaction term: row-wise-sum((XV)^2)
-        part_2 = torch.matmul(x_batch.pow(2), self.V.pow(2)).sum(1, keepdim=True) # perform the second part of the interaction term: row-wise-sum((X)^2 * (V)^2))
-        inter_term = (part_1 - part_2)/2 # Put the interaction term parts together (refer to the equations above)
-        var_strength = self.linear(x_batch) # Perform the linear part of the model equation (refer to the demo notebook on how to use layers in pytorch models)
-        return var_strength + inter_term
+    
         
     features,ratings=dataset_train[[1]]
 
