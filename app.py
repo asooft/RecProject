@@ -405,14 +405,13 @@ def run_movie_based():
                 </style>
                 """
             , unsafe_allow_html=True)
+            
+            html_string = f'<div class="custom-box2">' \
+                          f'<div class="custom-title2">Top {k} Similar Movies to \'{movie_name}\':</div>' \
+                          f'</div>'
 
-            # Display the "Top Recommendations" title
-            st.write(
-                '<div class="custom-box2">'
-                '<div class="custom-title2">"Top '{k}' Similar Movies to '{movie_name}':"</div>'
-                '</div>'
-                , unsafe_allow_html=True
-            )
+            # Display the HTML string in Streamlit
+            st.write(html_string, unsafe_allow_html=True)
         
 
         #st.write(f"Top {k} Similar Movies to '{movie_name}':")
