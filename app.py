@@ -450,24 +450,8 @@ def run_movie_based():
                 #st.write(row['title'])
         
     # Get the selected movie from the selectbox
-    selected_movie = st.selectbox("Select a movie", movies['title'].unique())
 
-    # Create a placeholder for the button
-    button_placeholder = st.empty()
-
-    # Check if the button is clicked
-    if button_placeholder.button("Submit"):
-        # Store the selected movie in the app state
-        st.session_state.selected_movie = selected_movie
-
-    # Retrieve the selected movie from the app state
-    if 'selected_movie' not in st.session_state:
-        st.session_state.selected_movie = None
-
-    selected_movie = st.session_state.selected_movie
-
-
-    #selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
+    selected_movie = st.selectbox("Choose a movie", movies['title'].unique(), index=0, key='movie_select')
 
 
     # Filter the DataFrame based on the selected movie
