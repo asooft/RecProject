@@ -376,13 +376,16 @@ def main():
             border: 1px solid gray;
             padding: 10px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            width:30%;
         }
         </style>
         """, unsafe_allow_html=True)
 
     image = Image.open(image)
 
-    st.image(image, caption='Rate')
+    # Apply CSS class to the image container
+    st.image(image, output_format='PNG', use_column_width=True, 
+            container_class='image-container')
 
     
 
