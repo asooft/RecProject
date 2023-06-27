@@ -68,7 +68,7 @@ def get_recommendations(movies_data,df,user_id, k):
     #new_model = RecommenderNet(keras.Model)
     options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
     #new_model = tf.keras.models.load_model('Col', options=options)
-    model_path = "col/saved_model.pb"  # Path to the saved_model.pb file
+    model_path = "Col/saved_model.pb"  # Path to the saved_model.pb file
     model = tf.keras.models.load_model(model_path)    
     #model=keras.models.load_model("")
     #imported = tf.saved_model.load(path)
