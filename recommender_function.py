@@ -45,7 +45,7 @@ class RecommenderNet():
         return tf.nn.sigmoid(x)
 
 
-model = RecommenderNet(num_users, num_movies, EMBEDDING_SIZE)
+model = RecommenderNet(num_users=610, num_movies=9724, EMBEDDING_SIZE=50)
 model.compile(
     loss=tf.keras.losses.BinaryCrossentropy(),
     optimizer=keras.optimizers.Adam(learning_rate=0.0001),
