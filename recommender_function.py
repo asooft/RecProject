@@ -59,11 +59,11 @@ def get_recommendations(movies_data,df,user_id, k):
       
       folder_path = 'Col'  # Specify the folder path
 
-          # Iterate over each file in the folder
-          for file_name in os.listdir(folder_path):
-              # Check if the path is a file (not a subdirectory)
-              if os.path.isfile(os.path.join(folder_path, file_name)):
-                  st.write(file_name)
+        # Iterate over each file in the folder
+        for file_name in os.listdir(folder_path):
+            # Check if the path is a file (not a subdirectory)
+            if os.path.isfile(os.path.join(folder_path, file_name)):
+                st.write(file_name)
       
       new_model = RecommenderNet(keras.Model)
       options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
