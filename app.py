@@ -11,7 +11,6 @@ from keras.layers import Input, Embedding, Reshape, Dot, Concatenate, Dense, Dro
 from keras.models import Model
 from keras.utils.vis_utils import plot_model
 from scipy.sparse import vstack
-import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 from tensorflow.keras import layers
 import recommender_function
