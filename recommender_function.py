@@ -57,18 +57,18 @@ def get_recommendations(movies_data,df,user_id, k):
       #print("Current path:", current_path)
       #st.write("Current path:", current_path)
       
-    folder_path = 'Col'  # Specify the folder path
+    #folder_path = 'Col'  # Specify the folder path
 
     # Iterate over each file in the folder
-    for file_name in os.listdir(folder_path):
-        # Check if the path is a file (not a subdirectory)
-        if os.path.isfile(os.path.join(folder_path, file_name)):
-            st.write(file_name)
+    #for file_name in os.listdir(folder_path):
+    #    # Check if the path is a file (not a subdirectory)
+    #    if os.path.isfile(os.path.join(folder_path, file_name)):
+    #        st.write(file_name)
       
-    new_model = RecommenderNet(keras.Model)
+    #new_model = RecommenderNet(keras.Model)
     options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
-    new_model = tf.keras.models.load_model('Col')  
-      #model=keras.models.load_model('Col')
+    #new_model = tf.keras.models.load_model('Col', options=options)  
+    model=keras.models.load_model('Col/saved_model')
 
 
     user_ids = df["userId"].unique().tolist()
