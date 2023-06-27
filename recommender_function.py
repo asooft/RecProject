@@ -9,15 +9,17 @@ from scipy.sparse import vstack
 from sklearn.metrics import mean_squared_error
 from tensorflow.keras import layers
 import streamlit as st
-
+import os
 
 def get_recommendations(movies_data,df,user_id, k):
 
       current_path = os.getcwd()
       print("Current path:", current_path)
       st.write("Current path:", current_path)
+      
+      new_model = create_model()
       options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
-      model = keras.models.load_model('Col', options=options)  
+      new_model = tf.keras.models.load_model('Col')  
       #model=keras.models.load_model('Col')
 
 
