@@ -6,7 +6,7 @@ IPython
 streamlit
 pandas
 surprise
-tensorflow
+tensorflow==2.12.0
 plost
 scipy
 scikit-learn

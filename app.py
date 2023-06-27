@@ -247,12 +247,7 @@ elif selected_page == "Users":
             df.index += 1  # Modify index to start from 1
             df = df.set_index('Index')
             st.table(df)
-              
 
-genre = st.sidebar.selectbox("Select Genre", ["Action", "Comedy", "Drama"])
-
-# Main content
-st.write(f"You selected {genre} genre.")
 
    
 
