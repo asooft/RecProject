@@ -8,5 +8,4 @@ pandas
 surprise
 tensorflow
 plost
-opencv-ptyhon
 scipy
