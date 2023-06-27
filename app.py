@@ -4,7 +4,6 @@ import plost
 import tempfile
 import os
 import subprocess
-import cv2
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
