@@ -12,7 +12,7 @@ from tensorflow.keras import layers
 
 def get_recommendations(movies_data,df,user_id, k):
   options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
-  model = tf.keras.models.load_model('Col/', options=options)  
+  model = tf.keras.models.load_model('Col/saved_model.pb')  
   #model=keras.models.load_model('Col')
 
 
