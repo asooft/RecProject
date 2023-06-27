@@ -11,13 +11,61 @@ from tensorflow.keras import layers
 import streamlit as st
 import os
 
+EMBEDDING_SIZE = 50
+class RecommenderNet():
+    def _init_(self, num_users, num_movies, embedding_size, **kwargs):
+        super()._init_(**kwargs)
+        self.num_users = num_users
+        self.num_movies = num_movies
+        self.embedding_size = embedding_size
+        self.user_embedding = layers.Embedding(
+            num_users,
+            embedding_size,
+            embeddings_initializer="he_normal",
+            embeddings_regularizer=keras.regularizers.l2(1e-6),
+        )
+        self.user_bias = layers.Embedding(num_users, 1)
+        self.movie_embedding = layers.Embedding(
+            num_movies,
+            embedding_size,
+            embeddings_initializer="he_normal",
+            embeddings_regularizer=keras.regularizers.l2(1e-6),
+        )
+        self.movie_bias = layers.Embedding(num_movies, 1)
+
+    def call(self, inputs):
+        user_vector = self.user_embedding(inputs[:, 0])
+        user_bias = self.user_bias(inputs[:, 0])
+        movie_vector = self.movie_embedding(inputs[:, 1])
+        movie_bias = self.movie_bias(inputs[:, 1])
+        dot_user_movie = tf.tensordot(user_vector, movie_vector, 2)
+        # Add all the components (including bias)
+        x = dot_user_movie + user_bias + movie_bias
+        # The sigmoid activation forces the rating to between 0 and 1
+        return tf.nn.sigmoid(x)
+
+
+model = RecommenderNet(num_users, num_movies, EMBEDDING_SIZE)
+model.compile(
+    loss=tf.keras.losses.BinaryCrossentropy(),
+    optimizer=keras.optimizers.Adam(learning_rate=0.0001),
+)
+
 def get_recommendations(movies_data,df,user_id, k):
 
-      current_path = os.getcwd()
-      print("Current path:", current_path)
-      st.write("Current path:", current_path)
+      #current_path = os.getcwd()
+      #print("Current path:", current_path)
+      #st.write("Current path:", current_path)
       
-      new_model = create_model()
+      folder_path = 'Col'  # Specify the folder path
+
+        # Iterate over each file in the folder
+        for file_name in os.listdir(folder_path):
+            # Check if the path is a file (not a subdirectory)
+            if os.path.isfile(os.path.join(folder_path, file_name)):
+                print(file_name)
+      
+      new_model = RecommenderNet()
       options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
       new_model = tf.keras.models.load_model('Col')  
       #model=keras.models.load_model('Col')
