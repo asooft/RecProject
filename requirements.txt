@@ -6,3 +6,4 @@ IPython
 streamlit
 pandas
 surprise
+tensorflow

@@ -12,7 +12,7 @@ from tensorflow.keras import layers
 import pickle
 
 def get_similar_movies(ratings,movies,movie_name, top_k):
-  with open(r"/content/drive/MyDrive/rec/project/model_knn.pkl", 'rb') as file:
+  with open(r"model_knn.pkl", 'rb') as file:
     model_knn = pickle.load(file)
   utility_matrix = ratings.pivot(index="movieId",columns="userId",values="rating")
   utility_matrix = utility_matrix.fillna(0)

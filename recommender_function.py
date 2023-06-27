@@ -10,9 +10,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 from tensorflow.keras import layers
 
+
 def get_recommendations(movies_data,df,user_id, k):
 
-  model=keras.models.load_model('/content/drive/MyDrive/rec/project')
+  model=keras.models.load_model('/')
 
   user_ids = df["userId"].unique().tolist()
   user2user_encoded = {x: i for i, x in enumerate(user_ids)}
@@ -22,9 +23,6 @@ def get_recommendations(movies_data,df,user_id, k):
   movie_ids = df["movieId"].unique().tolist()
   movie2movie_encoded = {x: i for i, x in enumerate(movie_ids)}
   movie_encoded2movie = {i: x for i, x in enumerate(movie_ids)}
-
-
-
 
 
   movies_watched_by_user = df[df.userId == user_id]
