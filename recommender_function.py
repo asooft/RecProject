@@ -66,10 +66,10 @@ def get_recommendations(movies_data,df,user_id, k):
     #        st.write(file_name)
       
     #new_model = RecommenderNet(keras.Model)
-    options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
+    #options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
     #new_model = tf.keras.models.load_model('Col', options=options)
-    model_path = "Col/saved_model.pb"  # Path to the saved_model.pb file
-    model = tf.keras.models.load_model('')    
+    #model_path = "Col/saved_model.pb"  # Path to the saved_model.pb file
+    model = tf.keras.models.load_model("")    
     #model=keras.models.load_model("")
     #imported = tf.saved_model.load(path)
     #model = model.signatures["fingerprint.pb"]
