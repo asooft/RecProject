@@ -12,7 +12,7 @@ import streamlit as st
 import os
 
 EMBEDDING_SIZE = 50
-class RecommenderNet():
+class RecommenderNet(keras.Model):
     def _init_(self, num_users=610, num_movies=9724, embedding_size=50, **kwargs):
         super()._init_(**kwargs)
         self.num_users = num_users
