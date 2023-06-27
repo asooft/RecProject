@@ -12,7 +12,7 @@ from tensorflow.keras import layers
 
 def get_recommendations(movies_data,df,user_id, k):
 
-  model=keras.models.load_model('/Col')
+  model=keras.models.load_model('Col')
 
   user_ids = df["userId"].unique().tolist()
   user2user_encoded = {x: i for i, x in enumerate(user_ids)}
