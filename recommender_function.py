@@ -70,7 +70,7 @@ def get_recommendations(movies_data,df,user_id, k):
     #new_model = tf.keras.models.load_model('Col', options=options)  
     model=keras.models.load_model('Col/saved_model.pb')
     #imported = tf.saved_model.load(path)
-    model = model.signatures["keras_metadata.pb"]
+    model = model.signatures["fingerprint.pb"]
 
 
 
