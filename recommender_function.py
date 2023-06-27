@@ -11,8 +11,9 @@ from tensorflow.keras import layers
 
 
 def get_recommendations(movies_data,df,user_id, k):
-
-  model=keras.models.load_model('Col')
+  options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
+  model = tf.keras.models.load_model('Col', options=options)  
+  #model=keras.models.load_model('Col')
 
   user_ids = df["userId"].unique().tolist()
   user2user_encoded = {x: i for i, x in enumerate(user_ids)}
